@@ -1,0 +1,532 @@
+[
+  {
+    "timestamp": "2026-06-12T05:15:10.978178",
+    "summary": {
+      "moved": 23,
+      "duplicates_removed": 0,
+      "skipped": 0
+    },
+    "moved": [
+      {
+        "filename": "01_special_chars.epub",
+        "from": "D:\\code\\TraeProjects\\1205\\test_source\\01_special_chars.epub",
+        "to": "D:\\code\\TraeProjects\\1205\\test_library\\S_Stanley B. Lippman\\C_C++ Primer： The Complete Guide\\01_special_chars.epub",
+        "title": "C++ Primer: The Complete Guide",
+        "author": "Stanley B. Lippman"
+      },
+      {
+        "filename": "02_special_chars.epub",
+        "from": "D:\\code\\TraeProjects\\1205\\test_source\\02_special_chars.epub",
+        "to": "D:\\code\\TraeProjects\\1205\\test_library\\东_东野圭吾\\谁_谁杀了她？东野圭吾作品\\02_special_chars.epub",
+        "title": "谁杀了她？东野圭吾作品",
+        "author": "东野圭吾"
+      },
+      {
+        "filename": "03_special_chars.epub",
+        "from": "D:\\code\\TraeProjects\\1205\\test_source\\03_special_chars.epub",
+        "to": "D:\\code\\TraeProjects\\1205\\test_library\\G_George Orwell\\1_1984／Brave New World\\03_special_chars.epub",
+        "title": "1984/Brave New World",
+        "author": "George Orwell"
+      },
+      {
+        "filename": "04_活着 - 余华.epub",
+        "from": "D:\\code\\TraeProjects\\1205\\test_source\\04_活着 - 余华.epub",
+        "to": "D:\\code\\TraeProjects\\1205\\test_library\\余_余华\\活_活着\\04_活着 - 余华.epub",
+        "title": "活着",
+        "author": "余华"
+      },
+      {
+        "filename": "05_平凡的世界 - 路遥.epub",
+        "from": "D:\\code\\TraeProjects\\1205\\test_source\\05_平凡的世界 - 路遥.epub",
+        "to": "D:\\code\\TraeProjects\\1205\\test_library\\路_路遥\\平_平凡的世界\\05_平凡的世界 - 路遥.epub",
+        "title": "平凡的世界",
+        "author": "路遥"
+      },
+      {
+        "filename": "06_刘慈欣 - 三体 - 重庆出版社 - 2008.epub",
+        "from": "D:\\code\\TraeProjects\\1205\\test_source\\06_刘慈欣 - 三体 - 重庆出版社 - 2008.epub",
+        "to": "D:\\code\\TraeProjects\\1205\\test_library\\刘_刘慈欣\\三_三体\\06_刘慈欣 - 三体 - 重庆出版社 - 2008.epub",
+        "title": "三体",
+        "author": "刘慈欣"
+      },
+      {
+        "filename": "07_白夜行（东野圭吾）.epub",
+        "from": "D:\\code\\TraeProjects\\1205\\test_source\\07_白夜行（东野圭吾）.epub",
+        "to": "D:\\code\\TraeProjects\\1205\\test_library\\东_东野圭吾\\白_白夜行\\07_白夜行（东野圭吾）.epub",
+        "title": "白夜行",
+        "author": "东野圭吾"
+      },
+      {
+        "filename": "08_恶意【东野圭吾】.epub",
+        "from": "D:\\code\\TraeProjects\\1205\\test_source\\08_恶意【东野圭吾】.epub",
+        "to": "D:\\code\\TraeProjects\\1205\\test_library\\东_东野圭吾\\恶_恶意\\08_恶意【东野圭吾】.epub",
+        "title": "恶意",
+        "author": "东野圭吾"
+      },
+      {
+        "filename": "09_with_cover.epub",
+        "from": "D:\\code\\TraeProjects\\1205\\test_source\\09_with_cover.epub",
+        "to": "D:\\code\\TraeProjects\\1205\\test_library\\R_Randal E. Bryant\\深_深入理解计算机系统\\09_with_cover.epub",
+        "title": "深入理解计算机系统",
+        "author": "Randal E. Bryant"
+      },
+      {
+        "filename": "10_dup_copy.epub",
+        "from": "D:\\code\\TraeProjects\\1205\\test_source\\10_dup_copy.epub",
+        "to": "D:\\code\\TraeProjects\\1205\\test_library\\测_测试作者\\重_重复测试书\\10_dup_copy.epub",
+        "title": "重复测试书",
+        "author": "测试作者"
+      },
+      {
+        "filename": "10_dup_original.epub",
+        "from": "D:\\code\\TraeProjects\\1205\\test_source\\10_dup_original.epub",
+        "to": "D:\\code\\TraeProjects\\1205\\test_library\\测_测试作者\\重_重复测试书\\10_dup_original.epub",
+        "title": "重复测试书",
+        "author": "测试作者"
+      },
+      {
+        "filename": "11_Effective Java by Bloch.epub",
+        "from": "D:\\code\\TraeProjects\\1205\\test_source\\11_Effective Java by Bloch.epub",
+        "to": "D:\\code\\TraeProjects\\1205\\test_library\\B_Bloch\\E_Effective Java\\11_Effective Java by Bloch.epub",
+        "title": "Effective Java",
+        "author": "Bloch"
+      },
+      {
+        "filename": "12_clean_code_by_robert_martin.epub",
+        "from": "D:\\code\\TraeProjects\\1205\\test_source\\12_clean_code_by_robert_martin.epub",
+        "to": "D:\\code\\TraeProjects\\1205\\test_library\\R_robert_martin\\C_clean_code\\12_clean_code_by_robert_martin.epub",
+        "title": "clean_code",
+        "author": "robert_martin"
+      },
+      {
+        "filename": "13_Spider-Man - 斯坦李.epub",
+        "from": "D:\\code\\TraeProjects\\1205\\test_source\\13_Spider-Man - 斯坦李.epub",
+        "to": "D:\\code\\TraeProjects\\1205\\test_library\\斯_斯坦李\\S_Spider-Man\\13_Spider-Man - 斯坦李.epub",
+        "title": "Spider-Man",
+        "author": "斯坦李"
+      },
+      {
+        "filename": "14_Design-Patterns - Gang of Four.epub",
+        "from": "D:\\code\\TraeProjects\\1205\\test_source\\14_Design-Patterns - Gang of Four.epub",
+        "to": "D:\\code\\TraeProjects\\1205\\test_library\\G_Gang of Four\\D_Design-Patterns\\14_Design-Patterns - Gang of Four.epub",
+        "title": "Design-Patterns",
+        "author": "Gang of Four"
+      },
+      {
+        "filename": "15_Thinking_Fast_and_Slow_by_Daniel_Kahneman.epub",
+        "from": "D:\\code\\TraeProjects\\1205\\test_source\\15_Thinking_Fast_and_Slow_by_Daniel_Kahneman.epub",
+        "to": "D:\\code\\TraeProjects\\1205\\test_library\\D_Daniel_Kahneman\\T_Thinking_Fast_and_Slow\\15_Thinking_Fast_and_Slow_by_Daniel_Kahneman.epub",
+        "title": "Thinking_Fast_and_Slow",
+        "author": "Daniel_Kahneman"
+      },
+      {
+        "filename": "16_the_test_book.epub",
+        "from": "D:\\code\\TraeProjects\\1205\\test_source\\16_the_test_book.epub",
+        "to": "D:\\code\\TraeProjects\\1205\\test_library\\T_the\\T_test\\16_the_test_book.epub",
+        "title": "test",
+        "author": "the"
+      },
+      {
+        "filename": "17_新增书籍 - draft.epub",
+        "from": "D:\\code\\TraeProjects\\1205\\test_source\\17_新增书籍 - draft.epub",
+        "to": "D:\\code\\TraeProjects\\1205\\test_library\\新_新增书籍\\D_draft\\17_新增书籍 - draft.epub",
+        "title": "draft",
+        "author": "新增书籍"
+      },
+      {
+        "filename": "18_高清扫描版 - 下载.epub",
+        "from": "D:\\code\\TraeProjects\\1205\\test_source\\18_高清扫描版 - 下载.epub",
+        "to": "D:\\code\\TraeProjects\\1205\\test_library\\高_高清扫描版\\下_下载\\18_高清扫描版 - 下载.epub",
+        "title": "下载",
+        "author": "高清扫描版"
+      },
+      {
+        "filename": "19_莫言 - 蛙.pdf",
+        "from": "D:\\code\\TraeProjects\\1205\\test_source\\19_莫言 - 蛙.pdf",
+        "to": "D:\\code\\TraeProjects\\1205\\test_library\\莫_莫言\\蛙_蛙\\19_莫言 - 蛙.pdf",
+        "title": "蛙",
+        "author": "莫言"
+      },
+      {
+        "filename": "20_clean_architecture_by_robert_martin.pdf",
+        "from": "D:\\code\\TraeProjects\\1205\\test_source\\20_clean_architecture_by_robert_martin.pdf",
+        "to": "D:\\code\\TraeProjects\\1205\\test_library\\R_robert_martin\\C_clean_architecture\\20_clean_architecture_by_robert_martin.pdf",
+        "title": "clean_architecture",
+        "author": "robert_martin"
+      },
+      {
+        "filename": "21_深入理解计算机系统_第3版_by_Randal_Bryant.epub",
+        "from": "D:\\code\\TraeProjects\\1205\\test_source\\21_深入理解计算机系统_第3版_by_Randal_Bryant.epub",
+        "to": "D:\\code\\TraeProjects\\1205\\test_library\\R_Randal_Bryant\\深_深入理解计算机系统_第3版\\21_深入理解计算机系统_第3版_by_Randal_Bryant.epub",
+        "title": "深入理解计算机系统_第3版",
+        "author": "Randal_Bryant"
+      },
+      {
+        "filename": "22_重构_改善既有代码的设计_by_Martin_Fowler.epub",
+        "from": "D:\\code\\TraeProjects\\1205\\test_source\\22_重构_改善既有代码的设计_by_Martin_Fowler.epub",
+        "to": "D:\\code\\TraeProjects\\1205\\test_library\\M_Martin_Fowler\\重_重构_改善既有代码的设计\\22_重构_改善既有代码的设计_by_Martin_Fowler.epub",
+        "title": "重构_改善既有代码的设计",
+        "author": "Martin_Fowler"
+      }
+    ],
+    "duplicates": [],
+    "skipped": []
+  },
+  {
+    "timestamp": "2026-06-12T05:15:30.391017",
+    "summary": {
+      "moved": 24,
+      "duplicates_removed": 0,
+      "skipped": 0
+    },
+    "moved": [
+      {
+        "filename": "18_高清扫描版 - 下载.epub",
+        "from": "D:\\code\\TraeProjects\\1205\\test_library\\高_高清扫描版\\下_下载\\18_高清扫描版 - 下载.epub",
+        "to": "D:\\code\\TraeProjects\\1205\\test_library\\高_高清扫描版\\下_下载\\18_高清扫描版 - 下载.epub",
+        "title": "下载",
+        "author": "高清扫描版"
+      },
+      {
+        "filename": "05_平凡的世界 - 路遥.epub",
+        "from": "D:\\code\\TraeProjects\\1205\\test_library\\路_路遥\\平_平凡的世界\\05_平凡的世界 - 路遥.epub",
+        "to": "D:\\code\\TraeProjects\\1205\\test_library\\路_路遥\\平_平凡的世界\\05_平凡的世界 - 路遥.epub",
+        "title": "平凡的世界",
+        "author": "路遥"
+      },
+      {
+        "filename": "19_莫言 - 蛙.pdf",
+        "from": "D:\\code\\TraeProjects\\1205\\test_library\\莫_莫言\\蛙_蛙\\19_莫言 - 蛙.pdf",
+        "to": "D:\\code\\TraeProjects\\1205\\test_library\\莫_莫言\\蛙_蛙\\19_莫言 - 蛙.pdf",
+        "title": "蛙",
+        "author": "莫言"
+      },
+      {
+        "filename": "10_dup_copy.epub",
+        "from": "D:\\code\\TraeProjects\\1205\\test_library\\测_测试作者\\重_重复测试书\\10_dup_copy.epub",
+        "to": "D:\\code\\TraeProjects\\1205\\test_library\\测_测试作者\\重_重复测试书\\10_dup_copy.epub",
+        "title": "重复测试书",
+        "author": "测试作者"
+      },
+      {
+        "filename": "10_dup_original.epub",
+        "from": "D:\\code\\TraeProjects\\1205\\test_library\\测_测试作者\\重_重复测试书\\10_dup_original.epub",
+        "to": "D:\\code\\TraeProjects\\1205\\test_library\\测_测试作者\\重_重复测试书\\10_dup_original.epub",
+        "title": "重复测试书",
+        "author": "测试作者"
+      },
+      {
+        "filename": "10_dup_third.epub",
+        "from": "D:\\code\\TraeProjects\\1205\\test_library\\测_测试作者\\重_重复测试书\\10_dup_third.epub",
+        "to": "D:\\code\\TraeProjects\\1205\\test_library\\测_测试作者\\重_重复测试书\\10_dup_third.epub",
+        "title": "重复测试书",
+        "author": "测试作者"
+      },
+      {
+        "filename": "17_新增书籍 - draft.epub",
+        "from": "D:\\code\\TraeProjects\\1205\\test_library\\新_新增书籍\\D_draft\\17_新增书籍 - draft.epub",
+        "to": "D:\\code\\TraeProjects\\1205\\test_library\\新_新增书籍\\D_draft\\17_新增书籍 - draft.epub",
+        "title": "draft",
+        "author": "新增书籍"
+      },
+      {
+        "filename": "13_Spider-Man - 斯坦李.epub",
+        "from": "D:\\code\\TraeProjects\\1205\\test_library\\斯_斯坦李\\S_Spider-Man\\13_Spider-Man - 斯坦李.epub",
+        "to": "D:\\code\\TraeProjects\\1205\\test_library\\斯_斯坦李\\S_Spider-Man\\13_Spider-Man - 斯坦李.epub",
+        "title": "Spider-Man",
+        "author": "斯坦李"
+      },
+      {
+        "filename": "06_刘慈欣 - 三体 - 重庆出版社 - 2008.epub",
+        "from": "D:\\code\\TraeProjects\\1205\\test_library\\刘_刘慈欣\\三_三体\\06_刘慈欣 - 三体 - 重庆出版社 - 2008.epub",
+        "to": "D:\\code\\TraeProjects\\1205\\test_library\\刘_刘慈欣\\三_三体\\06_刘慈欣 - 三体 - 重庆出版社 - 2008.epub",
+        "title": "三体",
+        "author": "刘慈欣"
+      },
+      {
+        "filename": "04_活着 - 余华.epub",
+        "from": "D:\\code\\TraeProjects\\1205\\test_library\\余_余华\\活_活着\\04_活着 - 余华.epub",
+        "to": "D:\\code\\TraeProjects\\1205\\test_library\\余_余华\\活_活着\\04_活着 - 余华.epub",
+        "title": "活着",
+        "author": "余华"
+      },
+      {
+        "filename": "08_恶意【东野圭吾】.epub",
+        "from": "D:\\code\\TraeProjects\\1205\\test_library\\东_东野圭吾\\恶_恶意\\08_恶意【东野圭吾】.epub",
+        "to": "D:\\code\\TraeProjects\\1205\\test_library\\东_东野圭吾\\恶_恶意\\08_恶意【东野圭吾】.epub",
+        "title": "恶意",
+        "author": "东野圭吾"
+      },
+      {
+        "filename": "07_白夜行（东野圭吾）.epub",
+        "from": "D:\\code\\TraeProjects\\1205\\test_library\\东_东野圭吾\\白_白夜行\\07_白夜行（东野圭吾）.epub",
+        "to": "D:\\code\\TraeProjects\\1205\\test_library\\东_东野圭吾\\白_白夜行\\07_白夜行（东野圭吾）.epub",
+        "title": "白夜行",
+        "author": "东野圭吾"
+      },
+      {
+        "filename": "02_special_chars.epub",
+        "from": "D:\\code\\TraeProjects\\1205\\test_library\\东_东野圭吾\\谁_谁杀了她？东野圭吾作品\\02_special_chars.epub",
+        "to": "D:\\code\\TraeProjects\\1205\\test_library\\东_东野圭吾\\谁_谁杀了她？东野圭吾作品\\02_special_chars.epub",
+        "title": "谁杀了她？东野圭吾作品",
+        "author": "东野圭吾"
+      },
+      {
+        "filename": "new_book.epub",
+        "from": "D:\\code\\TraeProjects\\1205\\test_library\\Z_新作者\\X_新书测试\\new_book.epub",
+        "to": "D:\\code\\TraeProjects\\1205\\test_library\\N_new\\B_book\\new_book.epub",
+        "title": "book",
+        "author": "new"
+      },
+      {
+        "filename": "01_special_chars.epub",
+        "from": "D:\\code\\TraeProjects\\1205\\test_library\\S_Stanley B. Lippman\\C_C++ Primer： The Complete Guide\\01_special_chars.epub",
+        "to": "D:\\code\\TraeProjects\\1205\\test_library\\S_Stanley B. Lippman\\C_C++ Primer： The Complete Guide\\01_special_chars.epub",
+        "title": "C++ Primer: The Complete Guide",
+        "author": "Stanley B. Lippman"
+      },
+      {
+        "filename": "20_clean_architecture_by_robert_martin.pdf",
+        "from": "D:\\code\\TraeProjects\\1205\\test_library\\R_robert_martin\\C_clean_architecture\\20_clean_architecture_by_robert_martin.pdf",
+        "to": "D:\\code\\TraeProjects\\1205\\test_library\\R_robert_martin\\C_clean_architecture\\20_clean_architecture_by_robert_martin.pdf",
+        "title": "clean_architecture",
+        "author": "robert_martin"
+      },
+      {
+        "filename": "12_clean_code_by_robert_martin.epub",
+        "from": "D:\\code\\TraeProjects\\1205\\test_library\\R_robert_martin\\C_clean_code\\12_clean_code_by_robert_martin.epub",
+        "to": "D:\\code\\TraeProjects\\1205\\test_library\\R_robert_martin\\C_clean_code\\12_clean_code_by_robert_martin.epub",
+        "title": "clean_code",
+        "author": "robert_martin"
+      },
+      {
+        "filename": "21_深入理解计算机系统_第3版_by_Randal_Bryant.epub",
+        "from": "D:\\code\\TraeProjects\\1205\\test_library\\R_Randal_Bryant\\深_深入理解计算机系统_第3版\\21_深入理解计算机系统_第3版_by_Randal_Bryant.epub",
+        "to": "D:\\code\\TraeProjects\\1205\\test_library\\R_Randal_Bryant\\深_深入理解计算机系统_第3版\\21_深入理解计算机系统_第3版_by_Randal_Bryant.epub",
+        "title": "深入理解计算机系统_第3版",
+        "author": "Randal_Bryant"
+      },
+      {
+        "filename": "09_with_cover.epub",
+        "from": "D:\\code\\TraeProjects\\1205\\test_library\\R_Randal E. Bryant\\深_深入理解计算机系统\\09_with_cover.epub",
+        "to": "D:\\code\\TraeProjects\\1205\\test_library\\R_Randal E. Bryant\\深_深入理解计算机系统\\09_with_cover.epub",
+        "title": "深入理解计算机系统",
+        "author": "Randal E. Bryant"
+      },
+      {
+        "filename": "22_重构_改善既有代码的设计_by_Martin_Fowler.epub",
+        "from": "D:\\code\\TraeProjects\\1205\\test_library\\M_Martin_Fowler\\重_重构_改善既有代码的设计\\22_重构_改善既有代码的设计_by_Martin_Fowler.epub",
+        "to": "D:\\code\\TraeProjects\\1205\\test_library\\M_Martin_Fowler\\重_重构_改善既有代码的设计\\22_重构_改善既有代码的设计_by_Martin_Fowler.epub",
+        "title": "重构_改善既有代码的设计",
+        "author": "Martin_Fowler"
+      },
+      {
+        "filename": "03_special_chars.epub",
+        "from": "D:\\code\\TraeProjects\\1205\\test_library\\G_George Orwell\\1_1984／Brave New World\\03_special_chars.epub",
+        "to": "D:\\code\\TraeProjects\\1205\\test_library\\G_George Orwell\\1_1984／Brave New World\\03_special_chars.epub",
+        "title": "1984/Brave New World",
+        "author": "George Orwell"
+      },
+      {
+        "filename": "14_Design-Patterns - Gang of Four.epub",
+        "from": "D:\\code\\TraeProjects\\1205\\test_library\\G_Gang of Four\\D_Design-Patterns\\14_Design-Patterns - Gang of Four.epub",
+        "to": "D:\\code\\TraeProjects\\1205\\test_library\\G_Gang of Four\\D_Design-Patterns\\14_Design-Patterns - Gang of Four.epub",
+        "title": "Design-Patterns",
+        "author": "Gang of Four"
+      },
+      {
+        "filename": "15_Thinking_Fast_and_Slow_by_Daniel_Kahneman.epub",
+        "from": "D:\\code\\TraeProjects\\1205\\test_library\\D_Daniel_Kahneman\\T_Thinking_Fast_and_Slow\\15_Thinking_Fast_and_Slow_by_Daniel_Kahneman.epub",
+        "to": "D:\\code\\TraeProjects\\1205\\test_library\\D_Daniel_Kahneman\\T_Thinking_Fast_and_Slow\\15_Thinking_Fast_and_Slow_by_Daniel_Kahneman.epub",
+        "title": "Thinking_Fast_and_Slow",
+        "author": "Daniel_Kahneman"
+      },
+      {
+        "filename": "11_Effective Java by Bloch.epub",
+        "from": "D:\\code\\TraeProjects\\1205\\test_library\\B_Bloch\\E_Effective Java\\11_Effective Java by Bloch.epub",
+        "to": "D:\\code\\TraeProjects\\1205\\test_library\\B_Bloch\\E_Effective Java\\11_Effective Java by Bloch.epub",
+        "title": "Effective Java",
+        "author": "Bloch"
+      }
+    ],
+    "duplicates": [],
+    "skipped": []
+  },
+  {
+    "timestamp": "2026-06-12T05:16:00.950721",
+    "summary": {
+      "moved": 22,
+      "duplicates_removed": 2,
+      "skipped": 0
+    },
+    "moved": [
+      {
+        "filename": "18_高清扫描版 - 下载.epub",
+        "from": "D:\\code\\TraeProjects\\1205\\test_library\\高_高清扫描版\\下_下载\\18_高清扫描版 - 下载.epub",
+        "to": "D:\\code\\TraeProjects\\1205\\test_library\\高_高清扫描版\\下_下载\\18_高清扫描版 - 下载.epub",
+        "title": "下载",
+        "author": "高清扫描版"
+      },
+      {
+        "filename": "05_平凡的世界 - 路遥.epub",
+        "from": "D:\\code\\TraeProjects\\1205\\test_library\\路_路遥\\平_平凡的世界\\05_平凡的世界 - 路遥.epub",
+        "to": "D:\\code\\TraeProjects\\1205\\test_library\\路_路遥\\平_平凡的世界\\05_平凡的世界 - 路遥.epub",
+        "title": "平凡的世界",
+        "author": "路遥"
+      },
+      {
+        "filename": "19_莫言 - 蛙.pdf",
+        "from": "D:\\code\\TraeProjects\\1205\\test_library\\莫_莫言\\蛙_蛙\\19_莫言 - 蛙.pdf",
+        "to": "D:\\code\\TraeProjects\\1205\\test_library\\莫_莫言\\蛙_蛙\\19_莫言 - 蛙.pdf",
+        "title": "蛙",
+        "author": "莫言"
+      },
+      {
+        "filename": "10_dup_copy.epub",
+        "from": "D:\\code\\TraeProjects\\1205\\test_library\\测_测试作者\\重_重复测试书\\10_dup_copy.epub",
+        "to": "D:\\code\\TraeProjects\\1205\\test_library\\测_测试作者\\重_重复测试书\\10_dup_copy.epub",
+        "title": "重复测试书",
+        "author": "测试作者"
+      },
+      {
+        "filename": "17_新增书籍 - draft.epub",
+        "from": "D:\\code\\TraeProjects\\1205\\test_library\\新_新增书籍\\D_draft\\17_新增书籍 - draft.epub",
+        "to": "D:\\code\\TraeProjects\\1205\\test_library\\新_新增书籍\\D_draft\\17_新增书籍 - draft.epub",
+        "title": "draft",
+        "author": "新增书籍"
+      },
+      {
+        "filename": "13_Spider-Man - 斯坦李.epub",
+        "from": "D:\\code\\TraeProjects\\1205\\test_library\\斯_斯坦李\\S_Spider-Man\\13_Spider-Man - 斯坦李.epub",
+        "to": "D:\\code\\TraeProjects\\1205\\test_library\\斯_斯坦李\\S_Spider-Man\\13_Spider-Man - 斯坦李.epub",
+        "title": "Spider-Man",
+        "author": "斯坦李"
+      },
+      {
+        "filename": "06_刘慈欣 - 三体 - 重庆出版社 - 2008.epub",
+        "from": "D:\\code\\TraeProjects\\1205\\test_library\\刘_刘慈欣\\三_三体\\06_刘慈欣 - 三体 - 重庆出版社 - 2008.epub",
+        "to": "D:\\code\\TraeProjects\\1205\\test_library\\刘_刘慈欣\\三_三体\\06_刘慈欣 - 三体 - 重庆出版社 - 2008.epub",
+        "title": "三体",
+        "author": "刘慈欣"
+      },
+      {
+        "filename": "04_活着 - 余华.epub",
+        "from": "D:\\code\\TraeProjects\\1205\\test_library\\余_余华\\活_活着\\04_活着 - 余华.epub",
+        "to": "D:\\code\\TraeProjects\\1205\\test_library\\余_余华\\活_活着\\04_活着 - 余华.epub",
+        "title": "活着",
+        "author": "余华"
+      },
+      {
+        "filename": "08_恶意【东野圭吾】.epub",
+        "from": "D:\\code\\TraeProjects\\1205\\test_library\\东_东野圭吾\\恶_恶意\\08_恶意【东野圭吾】.epub",
+        "to": "D:\\code\\TraeProjects\\1205\\test_library\\东_东野圭吾\\恶_恶意\\08_恶意【东野圭吾】.epub",
+        "title": "恶意",
+        "author": "东野圭吾"
+      },
+      {
+        "filename": "07_白夜行（东野圭吾）.epub",
+        "from": "D:\\code\\TraeProjects\\1205\\test_library\\东_东野圭吾\\白_白夜行\\07_白夜行（东野圭吾）.epub",
+        "to": "D:\\code\\TraeProjects\\1205\\test_library\\东_东野圭吾\\白_白夜行\\07_白夜行（东野圭吾）.epub",
+        "title": "白夜行",
+        "author": "东野圭吾"
+      },
+      {
+        "filename": "02_special_chars.epub",
+        "from": "D:\\code\\TraeProjects\\1205\\test_library\\东_东野圭吾\\谁_谁杀了她？东野圭吾作品\\02_special_chars.epub",
+        "to": "D:\\code\\TraeProjects\\1205\\test_library\\东_东野圭吾\\谁_谁杀了她？东野圭吾作品\\02_special_chars.epub",
+        "title": "谁杀了她？东野圭吾作品",
+        "author": "东野圭吾"
+      },
+      {
+        "filename": "01_special_chars.epub",
+        "from": "D:\\code\\TraeProjects\\1205\\test_library\\S_Stanley B. Lippman\\C_C++ Primer： The Complete Guide\\01_special_chars.epub",
+        "to": "D:\\code\\TraeProjects\\1205\\test_library\\S_Stanley B. Lippman\\C_C++ Primer： The Complete Guide\\01_special_chars.epub",
+        "title": "C++ Primer: The Complete Guide",
+        "author": "Stanley B. Lippman"
+      },
+      {
+        "filename": "20_clean_architecture_by_robert_martin.pdf",
+        "from": "D:\\code\\TraeProjects\\1205\\test_library\\R_robert_martin\\C_clean_architecture\\20_clean_architecture_by_robert_martin.pdf",
+        "to": "D:\\code\\TraeProjects\\1205\\test_library\\R_robert_martin\\C_clean_architecture\\20_clean_architecture_by_robert_martin.pdf",
+        "title": "clean_architecture",
+        "author": "robert_martin"
+      },
+      {
+        "filename": "12_clean_code_by_robert_martin.epub",
+        "from": "D:\\code\\TraeProjects\\1205\\test_library\\R_robert_martin\\C_clean_code\\12_clean_code_by_robert_martin.epub",
+        "to": "D:\\code\\TraeProjects\\1205\\test_library\\R_robert_martin\\C_clean_code\\12_clean_code_by_robert_martin.epub",
+        "title": "clean_code",
+        "author": "robert_martin"
+      },
+      {
+        "filename": "21_深入理解计算机系统_第3版_by_Randal_Bryant.epub",
+        "from": "D:\\code\\TraeProjects\\1205\\test_library\\R_Randal_Bryant\\深_深入理解计算机系统_第3版\\21_深入理解计算机系统_第3版_by_Randal_Bryant.epub",
+        "to": "D:\\code\\TraeProjects\\1205\\test_library\\R_Randal_Bryant\\深_深入理解计算机系统_第3版\\21_深入理解计算机系统_第3版_by_Randal_Bryant.epub",
+        "title": "深入理解计算机系统_第3版",
+        "author": "Randal_Bryant"
+      },
+      {
+        "filename": "09_with_cover.epub",
+        "from": "D:\\code\\TraeProjects\\1205\\test_library\\R_Randal E. Bryant\\深_深入理解计算机系统\\09_with_cover.epub",
+        "to": "D:\\code\\TraeProjects\\1205\\test_library\\R_Randal E. Bryant\\深_深入理解计算机系统\\09_with_cover.epub",
+        "title": "深入理解计算机系统",
+        "author": "Randal E. Bryant"
+      },
+      {
+        "filename": "new_book.epub",
+        "from": "D:\\code\\TraeProjects\\1205\\test_library\\N_new\\B_book\\new_book.epub",
+        "to": "D:\\code\\TraeProjects\\1205\\test_library\\N_new\\B_book\\new_book.epub",
+        "title": "book",
+        "author": "new"
+      },
+      {
+        "filename": "22_重构_改善既有代码的设计_by_Martin_Fowler.epub",
+        "from": "D:\\code\\TraeProjects\\1205\\test_library\\M_Martin_Fowler\\重_重构_改善既有代码的设计\\22_重构_改善既有代码的设计_by_Martin_Fowler.epub",
+        "to": "D:\\code\\TraeProjects\\1205\\test_library\\M_Martin_Fowler\\重_重构_改善既有代码的设计\\22_重构_改善既有代码的设计_by_Martin_Fowler.epub",
+        "title": "重构_改善既有代码的设计",
+        "author": "Martin_Fowler"
+      },
+      {
+        "filename": "03_special_chars.epub",
+        "from": "D:\\code\\TraeProjects\\1205\\test_library\\G_George Orwell\\1_1984／Brave New World\\03_special_chars.epub",
+        "to": "D:\\code\\TraeProjects\\1205\\test_library\\G_George Orwell\\1_1984／Brave New World\\03_special_chars.epub",
+        "title": "1984/Brave New World",
+        "author": "George Orwell"
+      },
+      {
+        "filename": "14_Design-Patterns - Gang of Four.epub",
+        "from": "D:\\code\\TraeProjects\\1205\\test_library\\G_Gang of Four\\D_Design-Patterns\\14_Design-Patterns - Gang of Four.epub",
+        "to": "D:\\code\\TraeProjects\\1205\\test_library\\G_Gang of Four\\D_Design-Patterns\\14_Design-Patterns - Gang of Four.epub",
+        "title": "Design-Patterns",
+        "author": "Gang of Four"
+      },
+      {
+        "filename": "15_Thinking_Fast_and_Slow_by_Daniel_Kahneman.epub",
+        "from": "D:\\code\\TraeProjects\\1205\\test_library\\D_Daniel_Kahneman\\T_Thinking_Fast_and_Slow\\15_Thinking_Fast_and_Slow_by_Daniel_Kahneman.epub",
+        "to": "D:\\code\\TraeProjects\\1205\\test_library\\D_Daniel_Kahneman\\T_Thinking_Fast_and_Slow\\15_Thinking_Fast_and_Slow_by_Daniel_Kahneman.epub",
+        "title": "Thinking_Fast_and_Slow",
+        "author": "Daniel_Kahneman"
+      },
+      {
+        "filename": "11_Effective Java by Bloch.epub",
+        "from": "D:\\code\\TraeProjects\\1205\\test_library\\B_Bloch\\E_Effective Java\\11_Effective Java by Bloch.epub",
+        "to": "D:\\code\\TraeProjects\\1205\\test_library\\B_Bloch\\E_Effective Java\\11_Effective Java by Bloch.epub",
+        "title": "Effective Java",
+        "author": "Bloch"
+      }
+    ],
+    "duplicates": [
+      {
+        "filename": "10_dup_original.epub",
+        "from": "D:\\code\\TraeProjects\\1205\\test_library\\测_测试作者\\重_重复测试书\\10_dup_original.epub",
+        "reason": "按标题+作者组合"
+      },
+      {
+        "filename": "10_dup_third.epub",
+        "from": "D:\\code\\TraeProjects\\1205\\test_library\\测_测试作者\\重_重复测试书\\10_dup_third.epub",
+        "reason": "按标题+作者组合"
+      }
+    ],
+    "skipped": []
+  }
+]

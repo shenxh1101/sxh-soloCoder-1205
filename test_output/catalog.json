@@ -1,0 +1,439 @@
+[
+  {
+    "title": "C++ Primer: The Complete Guide",
+    "author": "Stanley B. Lippman",
+    "publisher": "Addison-Wesley",
+    "date": "2012-08-06",
+    "format": "EPUB",
+    "filename": "01_special_chars.epub",
+    "size_bytes": 1077,
+    "content_hash": "6089541364cc1706108f04d6843ca9136fd3bba6905fd462859686ef4b7e549a",
+    "filepath": "D:\\code\\TraeProjects\\1205\\test_output\\S_Stanley B. Lippman\\C_C++ Primer： The Complete Guide\\01_special_chars.epub",
+    "meta_source": {
+      "title": "embedded",
+      "author": "embedded",
+      "publisher": "embedded",
+      "date": "embedded"
+    },
+    "swap_detected": false,
+    "error_reading": false
+  },
+  {
+    "title": "谁杀了她？东野圭吾作品",
+    "author": "东野圭吾",
+    "publisher": "南海出版公司",
+    "date": "2013-06-01",
+    "format": "EPUB",
+    "filename": "02_special_chars.epub",
+    "size_bytes": 1114,
+    "content_hash": "283c57091935137576910817d357d2db21eb1c88277d96412d7d8c6b15e993e5",
+    "filepath": "D:\\code\\TraeProjects\\1205\\test_output\\东_东野圭吾\\谁_谁杀了她？东野圭吾作品\\02_special_chars.epub",
+    "meta_source": {
+      "title": "embedded",
+      "author": "embedded",
+      "publisher": "embedded",
+      "date": "embedded"
+    },
+    "swap_detected": false,
+    "error_reading": false
+  },
+  {
+    "title": "1984/Brave New World",
+    "author": "George Orwell",
+    "publisher": "Penguin",
+    "date": "1949-06-08",
+    "format": "EPUB",
+    "filename": "03_special_chars.epub",
+    "size_bytes": 1063,
+    "content_hash": "b7be6f244321676356721a6e385644c3e4431ea9a17559ee475e6004b9e2cd92",
+    "filepath": "D:\\code\\TraeProjects\\1205\\test_output\\G_George Orwell\\1_1984／Brave New World\\03_special_chars.epub",
+    "meta_source": {
+      "title": "embedded",
+      "author": "embedded",
+      "publisher": "embedded",
+      "date": "embedded"
+    },
+    "swap_detected": false,
+    "error_reading": false
+  },
+  {
+    "title": "活着",
+    "author": "余华",
+    "publisher": "",
+    "date": "",
+    "format": "EPUB",
+    "filename": "04_活着 - 余华.epub",
+    "size_bytes": 677,
+    "content_hash": "3cfac87f7f96d5db66e4814037528560c4580d366c2cc3fba31b08e3b4b72242",
+    "filepath": "D:\\code\\TraeProjects\\1205\\test_output\\余_余华\\活_活着\\04_活着 - 余华.epub",
+    "meta_source": {
+      "title": "filename",
+      "author": "filename",
+      "publisher": "missing",
+      "date": "missing"
+    },
+    "swap_detected": true,
+    "error_reading": false
+  },
+  {
+    "title": "平凡的世界",
+    "author": "路遥",
+    "publisher": "",
+    "date": "",
+    "format": "EPUB",
+    "filename": "05_平凡的世界 - 路遥.epub",
+    "size_bytes": 677,
+    "content_hash": "3cfac87f7f96d5db66e4814037528560c4580d366c2cc3fba31b08e3b4b72242",
+    "filepath": "D:\\code\\TraeProjects\\1205\\test_output\\路_路遥\\平_平凡的世界\\05_平凡的世界 - 路遥.epub",
+    "meta_source": {
+      "title": "filename",
+      "author": "filename",
+      "publisher": "missing",
+      "date": "missing"
+    },
+    "swap_detected": true,
+    "error_reading": false
+  },
+  {
+    "title": "三体",
+    "author": "刘慈欣",
+    "publisher": "重庆出版社",
+    "date": "2008-01-01",
+    "format": "EPUB",
+    "filename": "06_刘慈欣 - 三体 - 重庆出版社 - 2008.epub",
+    "size_bytes": 867,
+    "content_hash": "806004a64fdf70a300ca27c4b018f2d8c1fb1cdfac65334332a608f0506a1b20",
+    "filepath": "D:\\code\\TraeProjects\\1205\\test_output\\刘_刘慈欣\\三_三体\\06_刘慈欣 - 三体 - 重庆出版社 - 2008.epub",
+    "meta_source": {
+      "title": "embedded",
+      "author": "embedded",
+      "publisher": "embedded",
+      "date": "embedded"
+    },
+    "swap_detected": false,
+    "error_reading": false
+  },
+  {
+    "title": "白夜行",
+    "author": "东野圭吾",
+    "publisher": "",
+    "date": "",
+    "format": "EPUB",
+    "filename": "07_白夜行（东野圭吾）.epub",
+    "size_bytes": 677,
+    "content_hash": "3cfac87f7f96d5db66e4814037528560c4580d366c2cc3fba31b08e3b4b72242",
+    "filepath": "D:\\code\\TraeProjects\\1205\\test_output\\东_东野圭吾\\白_白夜行\\07_白夜行（东野圭吾）.epub",
+    "meta_source": {
+      "title": "filename",
+      "author": "filename",
+      "publisher": "missing",
+      "date": "missing"
+    },
+    "swap_detected": false,
+    "error_reading": false
+  },
+  {
+    "title": "恶意",
+    "author": "东野圭吾",
+    "publisher": "",
+    "date": "",
+    "format": "EPUB",
+    "filename": "08_恶意【东野圭吾】.epub",
+    "size_bytes": 677,
+    "content_hash": "3cfac87f7f96d5db66e4814037528560c4580d366c2cc3fba31b08e3b4b72242",
+    "filepath": "D:\\code\\TraeProjects\\1205\\test_output\\东_东野圭吾\\恶_恶意\\08_恶意【东野圭吾】.epub",
+    "meta_source": {
+      "title": "filename",
+      "author": "filename",
+      "publisher": "missing",
+      "date": "missing"
+    },
+    "swap_detected": false,
+    "error_reading": false
+  },
+  {
+    "title": "深入理解计算机系统",
+    "author": "Randal E. Bryant",
+    "publisher": "机械工业出版社",
+    "date": "2016-11-01",
+    "format": "EPUB",
+    "filename": "09_with_cover.epub",
+    "size_bytes": 1116,
+    "content_hash": "c8efd83d858ff9b47b1d328128f84fe0a9107c2f1b0f8c072375d0c6c19d839d",
+    "filepath": "D:\\code\\TraeProjects\\1205\\test_output\\R_Randal E. Bryant\\深_深入理解计算机系统\\09_with_cover.epub",
+    "meta_source": {
+      "title": "embedded",
+      "author": "embedded",
+      "publisher": "embedded",
+      "date": "embedded"
+    },
+    "swap_detected": false,
+    "error_reading": false
+  },
+  {
+    "title": "重复测试书",
+    "author": "测试作者",
+    "publisher": "测试出版社",
+    "date": "2020-01-01",
+    "format": "EPUB",
+    "filename": "10_dup_copy.epub",
+    "size_bytes": 1081,
+    "content_hash": "4f80741c252c876526e11c6f3b11452d82de85b24a6917cad5fd09164900d1fa",
+    "filepath": "D:\\code\\TraeProjects\\1205\\test_output\\测_测试作者\\重_重复测试书\\10_dup_copy.epub",
+    "meta_source": {
+      "title": "embedded",
+      "author": "embedded",
+      "publisher": "embedded",
+      "date": "embedded"
+    },
+    "swap_detected": false,
+    "error_reading": false
+  },
+  {
+    "title": "重复测试书",
+    "author": "测试作者",
+    "publisher": "测试出版社",
+    "date": "2020-01-01",
+    "format": "EPUB",
+    "filename": "10_dup_original.epub",
+    "size_bytes": 1081,
+    "content_hash": "4f80741c252c876526e11c6f3b11452d82de85b24a6917cad5fd09164900d1fa",
+    "filepath": "D:\\code\\TraeProjects\\1205\\test_output\\测_测试作者\\重_重复测试书\\10_dup_original.epub",
+    "meta_source": {
+      "title": "embedded",
+      "author": "embedded",
+      "publisher": "embedded",
+      "date": "embedded"
+    },
+    "swap_detected": false,
+    "error_reading": false
+  },
+  {
+    "title": "Effective Java",
+    "author": "Bloch",
+    "publisher": "",
+    "date": "",
+    "format": "EPUB",
+    "filename": "11_Effective Java by Bloch.epub",
+    "size_bytes": 677,
+    "content_hash": "3cfac87f7f96d5db66e4814037528560c4580d366c2cc3fba31b08e3b4b72242",
+    "filepath": "D:\\code\\TraeProjects\\1205\\test_output\\B_Bloch\\E_Effective Java\\11_Effective Java by Bloch.epub",
+    "meta_source": {
+      "title": "filename",
+      "author": "filename",
+      "publisher": "missing",
+      "date": "missing"
+    },
+    "swap_detected": false,
+    "error_reading": false
+  },
+  {
+    "title": "clean_code",
+    "author": "robert_martin",
+    "publisher": "",
+    "date": "",
+    "format": "EPUB",
+    "filename": "12_clean_code_by_robert_martin.epub",
+    "size_bytes": 677,
+    "content_hash": "3cfac87f7f96d5db66e4814037528560c4580d366c2cc3fba31b08e3b4b72242",
+    "filepath": "D:\\code\\TraeProjects\\1205\\test_output\\R_robert_martin\\C_clean_code\\12_clean_code_by_robert_martin.epub",
+    "meta_source": {
+      "title": "filename",
+      "author": "filename",
+      "publisher": "missing",
+      "date": "missing"
+    },
+    "swap_detected": false,
+    "error_reading": false
+  },
+  {
+    "title": "Spider-Man",
+    "author": "斯坦李",
+    "publisher": "",
+    "date": "",
+    "format": "EPUB",
+    "filename": "13_Spider-Man - 斯坦李.epub",
+    "size_bytes": 677,
+    "content_hash": "3cfac87f7f96d5db66e4814037528560c4580d366c2cc3fba31b08e3b4b72242",
+    "filepath": "D:\\code\\TraeProjects\\1205\\test_output\\斯_斯坦李\\S_Spider-Man\\13_Spider-Man - 斯坦李.epub",
+    "meta_source": {
+      "title": "filename",
+      "author": "filename",
+      "publisher": "missing",
+      "date": "missing"
+    },
+    "swap_detected": false,
+    "error_reading": false
+  },
+  {
+    "title": "Design-Patterns",
+    "author": "Gang of Four",
+    "publisher": "",
+    "date": "",
+    "format": "EPUB",
+    "filename": "14_Design-Patterns - Gang of Four.epub",
+    "size_bytes": 677,
+    "content_hash": "3cfac87f7f96d5db66e4814037528560c4580d366c2cc3fba31b08e3b4b72242",
+    "filepath": "D:\\code\\TraeProjects\\1205\\test_output\\G_Gang of Four\\D_Design-Patterns\\14_Design-Patterns - Gang of Four.epub",
+    "meta_source": {
+      "title": "filename",
+      "author": "filename",
+      "publisher": "missing",
+      "date": "missing"
+    },
+    "swap_detected": false,
+    "error_reading": false
+  },
+  {
+    "title": "Thinking_Fast_and_Slow",
+    "author": "Daniel_Kahneman",
+    "publisher": "",
+    "date": "",
+    "format": "EPUB",
+    "filename": "15_Thinking_Fast_and_Slow_by_Daniel_Kahneman.epub",
+    "size_bytes": 677,
+    "content_hash": "3cfac87f7f96d5db66e4814037528560c4580d366c2cc3fba31b08e3b4b72242",
+    "filepath": "D:\\code\\TraeProjects\\1205\\test_output\\D_Daniel_Kahneman\\T_Thinking_Fast_and_Slow\\15_Thinking_Fast_and_Slow_by_Daniel_Kahneman.epub",
+    "meta_source": {
+      "title": "filename",
+      "author": "filename",
+      "publisher": "missing",
+      "date": "missing"
+    },
+    "swap_detected": false,
+    "error_reading": false
+  },
+  {
+    "title": "test",
+    "author": "the",
+    "publisher": "book",
+    "date": "",
+    "format": "EPUB",
+    "filename": "16_the_test_book.epub",
+    "size_bytes": 677,
+    "content_hash": "3cfac87f7f96d5db66e4814037528560c4580d366c2cc3fba31b08e3b4b72242",
+    "filepath": "D:\\code\\TraeProjects\\1205\\test_output\\T_the\\T_test\\16_the_test_book.epub",
+    "meta_source": {
+      "title": "filename_implausible",
+      "author": "filename_implausible",
+      "publisher": "filename",
+      "date": "missing"
+    },
+    "swap_detected": false,
+    "error_reading": false
+  },
+  {
+    "title": "draft",
+    "author": "新增书籍",
+    "publisher": "",
+    "date": "",
+    "format": "EPUB",
+    "filename": "17_新增书籍 - draft.epub",
+    "size_bytes": 677,
+    "content_hash": "3cfac87f7f96d5db66e4814037528560c4580d366c2cc3fba31b08e3b4b72242",
+    "filepath": "D:\\code\\TraeProjects\\1205\\test_output\\新_新增书籍\\D_draft\\17_新增书籍 - draft.epub",
+    "meta_source": {
+      "title": "filename_implausible",
+      "author": "filename_implausible",
+      "publisher": "missing",
+      "date": "missing"
+    },
+    "swap_detected": false,
+    "error_reading": false
+  },
+  {
+    "title": "下载",
+    "author": "高清扫描版",
+    "publisher": "",
+    "date": "",
+    "format": "EPUB",
+    "filename": "18_高清扫描版 - 下载.epub",
+    "size_bytes": 677,
+    "content_hash": "3cfac87f7f96d5db66e4814037528560c4580d366c2cc3fba31b08e3b4b72242",
+    "filepath": "D:\\code\\TraeProjects\\1205\\test_output\\高_高清扫描版\\下_下载\\18_高清扫描版 - 下载.epub",
+    "meta_source": {
+      "title": "filename_implausible",
+      "author": "filename_implausible",
+      "publisher": "missing",
+      "date": "missing"
+    },
+    "swap_detected": false,
+    "error_reading": false
+  },
+  {
+    "title": "蛙",
+    "author": "莫言",
+    "publisher": "",
+    "date": "",
+    "format": "PDF",
+    "filename": "19_莫言 - 蛙.pdf",
+    "size_bytes": 328,
+    "content_hash": "62e730b1b469c20af1817001b3fd6bd5ccdac0079245b32ca039218f9d2b70e4",
+    "filepath": "D:\\code\\TraeProjects\\1205\\test_output\\莫_莫言\\蛙_蛙\\19_莫言 - 蛙.pdf",
+    "meta_source": {
+      "title": "filename_implausible",
+      "author": "filename",
+      "publisher": "missing",
+      "date": "missing"
+    },
+    "swap_detected": false,
+    "error_reading": false
+  },
+  {
+    "title": "clean_architecture",
+    "author": "robert_martin",
+    "publisher": "",
+    "date": "",
+    "format": "PDF",
+    "filename": "20_clean_architecture_by_robert_martin.pdf",
+    "size_bytes": 328,
+    "content_hash": "62e730b1b469c20af1817001b3fd6bd5ccdac0079245b32ca039218f9d2b70e4",
+    "filepath": "D:\\code\\TraeProjects\\1205\\test_output\\R_robert_martin\\C_clean_architecture\\20_clean_architecture_by_robert_martin.pdf",
+    "meta_source": {
+      "title": "filename",
+      "author": "filename",
+      "publisher": "missing",
+      "date": "missing"
+    },
+    "swap_detected": false,
+    "error_reading": false
+  },
+  {
+    "title": "深入理解计算机系统_第3版",
+    "author": "Randal_Bryant",
+    "publisher": "",
+    "date": "",
+    "format": "EPUB",
+    "filename": "21_深入理解计算机系统_第3版_by_Randal_Bryant.epub",
+    "size_bytes": 677,
+    "content_hash": "3cfac87f7f96d5db66e4814037528560c4580d366c2cc3fba31b08e3b4b72242",
+    "filepath": "D:\\code\\TraeProjects\\1205\\test_output\\R_Randal_Bryant\\深_深入理解计算机系统_第3版\\21_深入理解计算机系统_第3版_by_Randal_Bryant.epub",
+    "meta_source": {
+      "title": "filename",
+      "author": "filename",
+      "publisher": "missing",
+      "date": "missing"
+    },
+    "swap_detected": false,
+    "error_reading": false
+  },
+  {
+    "title": "重构_改善既有代码的设计",
+    "author": "Martin_Fowler",
+    "publisher": "",
+    "date": "",
+    "format": "EPUB",
+    "filename": "22_重构_改善既有代码的设计_by_Martin_Fowler.epub",
+    "size_bytes": 677,
+    "content_hash": "3cfac87f7f96d5db66e4814037528560c4580d366c2cc3fba31b08e3b4b72242",
+    "filepath": "D:\\code\\TraeProjects\\1205\\test_output\\M_Martin_Fowler\\重_重构_改善既有代码的设计\\22_重构_改善既有代码的设计_by_Martin_Fowler.epub",
+    "meta_source": {
+      "title": "filename",
+      "author": "filename",
+      "publisher": "missing",
+      "date": "missing"
+    },
+    "swap_detected": false,
+    "error_reading": false
+  }
+]
