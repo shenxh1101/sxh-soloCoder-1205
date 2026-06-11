@@ -11,6 +11,7 @@ import zipfile
 import argparse
 import base64
 import io
+import hashlib
 from pathlib import Path
 from xml.etree import ElementTree as ET
 from datetime import datetime
@@ -27,38 +28,76 @@ NS = {
 # ── 书名号清洗正则 ────────────────────────────────────────
 _RE_CLEAN = re.compile(r"[《》「」『』【】〔〕]")
 
-# ── 文件名猜测模式 ───────────────────────────────────────
-GUESS_PATTERNS = [
-    # 作者 - 书名.扩展名
-    re.compile(
-        r"^(?P<author>[^\-_]+)\s*[-_]\s*(?P<title>.+?)(?:\s*[-_]\s*(?P<publisher>[^\-_]+?))?$",
-        re.IGNORECASE,
-    ),
-    # 书名 - 作者.扩展名
-    re.compile(
-        r"^(?P<title>.+?)\s*[-_]\s*(?P<author>[^\-_]+?)(?:\s*[-_]\s*(?P<publisher>[^\-_]+?))?$",
-        re.IGNORECASE,
-    ),
-    # 书名 by 作者
-    re.compile(
-        r"^(?P<title>.+?)\s+by\s+(?P<author>.+?)$", re.IGNORECASE
-    ),
-    # [作者] 书名
-    re.compile(
-        r"^\[(?P<author>[^\]]+)\]\s*(?P<title>.+?)$"
-    ),
-    # (作者) 书名
-    re.compile(
-        r"^\((?P<author>[^\)]+)\)\s*(?P<title>.+?)$"
-    ),
-]
+# ── Windows 非法文件名字符映射 ───────────────────────────
+_ILLEGAL_CHAR_MAP = {
+    ':': '：', '/': '／', '\\': '＼', '?': '？', '*': '＊',
+    '"': '＂', '<': '＜', '>': '＞', '|': '｜',
+}
 
 # ── 中文字符检测 ──────────────────────────────────────────
 _CHINESE_RE = re.compile(r"[\u4e00-\u9fff]")
 
+# ── 常见中文姓氏 ──────────────────────────────────────────
+_COMMON_CN_SURNAMES = {
+    "王", "李", "张", "刘", "陈", "杨", "赵", "黄", "周", "吴",
+    "徐", "孙", "胡", "朱", "高", "林", "何", "郭", "马", "罗",
+    "梁", "宋", "郑", "谢", "韩", "唐", "冯", "于", "董", "萧",
+    "程", "曹", "袁", "邓", "许", "傅", "沈", "曾", "彭", "吕",
+    "苏", "卢", "蒋", "蔡", "贾", "丁", "魏", "薛", "叶", "阎",
+    "余", "潘", "杜", "戴", "夏", "钟", "汪", "田", "任", "姜",
+    "范", "方", "石", "姚", "谭", "廖", "邹", "熊", "金", "陆",
+    "郝", "孔", "白", "崔", "康", "毛", "邱", "秦", "江", "史",
+    "顾", "侯", "邵", "孟", "龙", "万", "段", "雷", "钱", "汤",
+    "尹", "易", "常", "武", "乔", "贺", "赖", "龚", "文", "鲁迅",
+    "莫言", "巴金", "老舍", "茅盾", "曹禺", "冰心", "东野圭吾",
+    "村上春树", "加西亚", "马尔克斯", "东野", "司马", "欧阳",
+    "慕容", "上官", "诸葛", "令狐", "独孤",
+}
+
+# ── 书名常见关键词（用于检测交换）────────────────────────
+_TITLE_INDICATORS = [
+    "的", "之", "与", "和", "记", "传", "录", "集", "史", "志",
+    "论", "说", "话", "事", "梦", "城", "国", "家", "人", "生",
+    "死", "爱", "恨", "情", "仇", "罪", "罚", "战", "争", "和平",
+    "世界", "中国", "日本", "美国", "时间", "空间", "宇宙",
+    "故事", "小说", "笔记", "日记", "回忆", "自传", "随笔",
+    "指南", "手册", "入门", "实战", "编程", "设计", "模式",
+    "艺术", "哲学", "历史", "经济", "心理", "社会", "文化",
+    "第一卷", "第二卷", "上册", "下册", "全传", "全集",
+    "Ⅰ", "Ⅱ", "Ⅲ", "Ⅳ", "Ⅴ", "1", "2", "3",
+]
+
+
+# ══════════════════════════════════════════════════════════
+#  安全目录名
+# ══════════════════════════════════════════════════════════
+
+def sanitize_dirname(name: str, max_len: int = 80) -> str:
+    """将书名/作者名转为安全的目录名，替换 Windows 非法字符"""
+    result = name.strip()
+    for illegal, safe in _ILLEGAL_CHAR_MAP.items():
+        result = result.replace(illegal, safe)
+    if len(result) > max_len:
+        result = result[:max_len].rstrip()
+    return result or "unnamed"
+
+
+def _get_first_meaningful_char(s: str) -> str:
+    """提取字符串中第一个有意义的字符（跳过标点、空格）"""
+    cleaned = re.sub(r"[_\-\s\.\,;:!?\'\"\(\)\[\]{}《》「」『』【】〔〕]+", "", s)
+    if cleaned:
+        ch = cleaned[0]
+        if ch.isalpha():
+            return ch.upper()
+        return ch
+    return "X"
+
+
+# ══════════════════════════════════════════════════════════
+#  辅助函数
+# ══════════════════════════════════════════════════════════
 
 def safe_tag_text(elem: Optional[ET.Element], tag: str) -> str:
-    """安全获取 DC 标签文本"""
     if elem is None:
         return ""
     for ns_url in (NS["dc"], "http://purl.org/dc/elements/1.1/"):
@@ -68,17 +107,19 @@ def safe_tag_text(elem: Optional[ET.Element], tag: str) -> str:
     return ""
 
 
+def _ns(ns_uri: str) -> str:
+    return ns_uri
+
+
 # ══════════════════════════════════════════════════════════
 #  EPUB 元数据读取
 # ══════════════════════════════════════════════════════════
 
 def read_epub_metadata(filepath: Path) -> Dict[str, str]:
-    """从 EPUB 文件读取元数据，返回 dict"""
     meta = {"title": "", "author": "", "publisher": "", "date": "", "format": "EPUB"}
 
     try:
         with zipfile.ZipFile(filepath, "r") as zf:
-            # Step 1: 找到 container.xml → 定位 OPF 文件
             container_path = None
             if "META-INF/container.xml" in zf.namelist():
                 with zf.open("META-INF/container.xml") as f:
@@ -91,7 +132,6 @@ def read_epub_metadata(filepath: Path) -> Dict[str, str]:
             if not container_path or container_path not in zf.namelist():
                 return meta
 
-            # Step 2: 解析 OPF → metadata
             with zf.open(container_path) as f:
                 tree = ET.parse(f)
                 opf_root = tree.getroot()
@@ -128,16 +168,11 @@ def read_epub_metadata(filepath: Path) -> Dict[str, str]:
     return meta
 
 
-def _ns(ns_uri: str) -> str:
-    return ns_uri
-
-
 # ══════════════════════════════════════════════════════════
 #  PDF 元数据读取
 # ══════════════════════════════════════════════════════════
 
 def read_pdf_metadata(filepath: Path) -> Dict[str, str]:
-    """从 PDF 文件读取元数据，需要 PyPDF2"""
     meta = {"title": "", "author": "", "publisher": "", "date": "", "format": "PDF"}
 
     try:
@@ -180,35 +215,146 @@ def read_pdf_metadata(filepath: Path) -> Dict[str, str]:
 
 
 # ══════════════════════════════════════════════════════════
-#  文件名猜测元数据
+#  文件名猜测元数据（增强版）
 # ══════════════════════════════════════════════════════════
 
-def guess_from_filename(filename: str) -> Dict[str, str]:
-    """从文件名猜测 标题/作者/出版社"""
-    # 去掉扩展名
-    stem = Path(filename).stem
-    # 先去掉常见的编号前缀
-    stem = re.sub(r"^\d+[\.\s\-_]+", "", stem)
-    # 去掉扩展名中的语言标记
-    stem = re.sub(r"\[(zh|en|中文|英文|chs|eng)\]", "", stem, flags=re.IGNORECASE)
+GUESS_PATTERNS = [
+    # 作者 - 书名 - 出版社 - 年份
+    re.compile(
+        r"^(?P<author>.+?)\s*[-_–—]\s*(?P<title>.+?)\s*[-_–—]\s*(?P<publisher>.+?)\s*[-_–—]\s*(?P<year>\d{4})$"
+    ),
+    # 作者 - 书名 (年份)
+    re.compile(
+        r"^(?P<author>.+?)\s*[-_–—]\s*(?P<title>.+?)\s*[\(（]\s*(?P<year>\d{4})\s*[\)）]$"
+    ),
+    # 作者 - 书名 - 出版社
+    re.compile(
+        r"^(?P<author>.+?)\s*[-_–—]\s*(?P<title>.+?)\s*[-_–—]\s*(?P<publisher>.+?)$"
+    ),
+    # 书名 - 作者 - 出版社
+    re.compile(
+        r"^(?P<title>.+?)\s*[-_–—]\s*(?P<author>.+?)\s*[-_–—]\s*(?P<publisher>.+?)$"
+    ),
+    # 书名（作者）
+    re.compile(
+        r"^(?P<title>.+?)\s*[（\(](?P<author>[^）\)]+)[）\)]$"
+    ),
+    # 书名【作者】
+    re.compile(
+        r"^(?P<title>.+?)\s*[【\[](?P<author>[^】\]]+)[】\]]$"
+    ),
+    # [作者] 书名
+    re.compile(
+        r"^[\[【](?P<author>[^\]】]+)[\]】]\s*(?P<title>.+?)$"
+    ),
+    # (作者) 书名
+    re.compile(
+        r"^[\(（](?P<author>[^\)）]+)[\)）]\s*(?P<title>.+?)$"
+    ),
+    # 书名 by 作者
+    re.compile(
+        r"^(?P<title>.+?)\s+by\s+(?P<author>.+?)$", re.IGNORECASE
+    ),
+    # 作者 - 书名
+    re.compile(
+        r"^(?P<author>.+?)\s*[-_–—]\s*(?P<title>.+?)$"
+    ),
+    # 书名 - 作者 (最宽泛，最后匹配)
+    re.compile(
+        r"^(?P<title>.+?)\s*[-_–—]\s*(?P<author>.+?)$"
+    ),
+]
 
-    result = {"title": "", "author": "", "publisher": ""}
+
+def _looks_like_person_name(s: str) -> bool:
+    s = s.strip()
+    if not s:
+        return False
+    if _CHINESE_RE.search(s):
+        for surname in sorted(_COMMON_CN_SURNAMES, key=len, reverse=True):
+            if s.startswith(surname) and len(s) <= len(surname) + 3:
+                return True
+        if len(s) <= 2:
+            return False
+        if len(s) <= 4 and all(_CHINESE_RE.match(c) for c in s):
+            first_two = s[:2]
+            if first_two in _COMMON_CN_SURNAMES:
+                return True
+            return False
+        return False
+    else:
+        parts = s.split()
+        if 1 <= len(parts) <= 3 and all(p[0].isupper() for p in parts if p):
+            return True
+    return False
+
+
+def _looks_like_title(s: str) -> bool:
+    s = s.strip()
+    if not s:
+        return False
+    if len(s) <= 2:
+        return False
+    for indicator in _TITLE_INDICATORS:
+        if indicator in s:
+            return True
+    return len(s) >= 6
+
+
+def _detect_swap(author: str, title: str) -> bool:
+    if not author or not title:
+        return False
+
+    author_name = _looks_like_person_name(author)
+    title_name = _looks_like_person_name(title)
+    author_title = _looks_like_title(author)
+    title_title = _looks_like_title(title)
+
+    if title_name and not author_name:
+        return True
+    if author_title and not title_title:
+        return True
+    if title_name and author_title and not title_title and not author_name:
+        return True
+    if len(title) <= 4 and _CHINESE_RE.search(title) and len(author) > 10:
+        return True
+    return False
+
+
+def guess_from_filename(filename: str) -> Dict[str, str]:
+    """从文件名猜测 标题/作者/出版社（增强版）"""
+    stem = Path(filename).stem
+    stem = re.sub(r"^\d+[\.\s\-_]+", "", stem)
+    stem = re.sub(r"\[(zh|en|中文|英文|chs|eng)\]", "", stem, flags=re.IGNORECASE)
+    stem = stem.strip()
+
+    result = {"title": "", "author": "", "publisher": "", "date": "", "swap_detected": False}
 
     for pattern in GUESS_PATTERNS:
         m = pattern.match(stem)
-        if m:
-            author = m.group("author")
-            title = m.group("title") if "title" in m.groupdict() else ""
-            publisher = m.group("publisher") if "publisher" in m.groupdict() else ""
+        if not m:
+            continue
 
-            result["author"] = author.strip() if author else ""
-            result["title"] = title.strip() if title else ""
-            result["publisher"] = publisher.strip() if publisher else ""
+        gd = m.groupdict()
+        author = gd.get("author", "").strip()
+        title = gd.get("title", "").strip()
+        publisher = gd.get("publisher", "").strip()
+        year = gd.get("year", "").strip()
 
-            if result["title"] or result["author"]:
-                break
+        if not author and not title:
+            continue
 
-    # 如果仍然没有匹配到，把整个文件名作为书名
+        if _detect_swap(author, title):
+            author, title = title, author
+            result["swap_detected"] = True
+
+        result["author"] = author
+        result["title"] = title
+        result["publisher"] = publisher
+        if year:
+            result["date"] = f"{year}-01-01"
+        break
+
     if not result["title"] and not result["author"]:
         result["title"] = stem.strip()
 
@@ -216,17 +362,25 @@ def guess_from_filename(filename: str) -> Dict[str, str]:
 
 
 # ══════════════════════════════════════════════════════════
-#  获取书籍完整元数据（合并源 + 猜测）
+#  获取书籍完整元数据
 # ══════════════════════════════════════════════════════════
 
 def get_book_meta(filepath: Path) -> Dict[str, str]:
-    """合并文件内嵌元数据 + 文件名猜测"""
     ext = filepath.suffix.lower()
+    error_reading = False
 
     if ext == ".epub":
-        file_meta = read_epub_metadata(filepath)
+        try:
+            file_meta = read_epub_metadata(filepath)
+        except Exception:
+            file_meta = {"title": "", "author": "", "publisher": "", "date": "", "format": "EPUB"}
+            error_reading = True
     elif ext == ".pdf":
-        file_meta = read_pdf_metadata(filepath)
+        try:
+            file_meta = read_pdf_metadata(filepath)
+        except Exception:
+            file_meta = {"title": "", "author": "", "publisher": "", "date": "", "format": "PDF"}
+            error_reading = True
     else:
         file_meta = {"title": "", "author": "", "publisher": "", "date": "", "format": ext.upper()}
 
@@ -234,14 +388,24 @@ def get_book_meta(filepath: Path) -> Dict[str, str]:
 
     meta = dict(file_meta)
     meta["guessed"] = {}
+    meta["meta_source"] = {}
 
-    for key in ("title", "author", "publisher"):
-        if not meta.get(key):
+    for key in ("title", "author", "publisher", "date"):
+        file_val = file_meta.get(key, "")
+        if file_val:
+            meta["guessed"][key] = False
+            meta["meta_source"][key] = "embedded"
+        elif guessed.get(key, ""):
             meta[key] = guessed.get(key, "")
-            meta["guessed"][key] = bool(guessed.get(key))
+            meta["guessed"][key] = True
+            meta["meta_source"][key] = "filename"
         else:
             meta["guessed"][key] = False
+            meta["meta_source"][key] = "missing"
 
+    meta["swap_detected"] = guessed.get("swap_detected", False) and any(
+        meta["guessed"].get(k) for k in ("title", "author"))
+    meta["error_reading"] = error_reading
     meta["filepath"] = str(filepath)
     meta["filename"] = filepath.name
     meta["size"] = filepath.stat().st_size
@@ -250,23 +414,19 @@ def get_book_meta(filepath: Path) -> Dict[str, str]:
 
 
 # ══════════════════════════════════════════════════════════
-#  封面缩略图提取
+#  封面缩略图
 # ══════════════════════════════════════════════════════════
 
 def extract_cover_thumbnail(filepath: Path, max_size: int = 8192) -> Optional[str]:
-    """提取封面缩略图的 base64 data-uri，用于 HTML 展示"""
     ext = filepath.suffix.lower()
-
     if ext == ".epub":
         return _extract_epub_cover(filepath, max_size)
     elif ext == ".pdf":
         return _extract_pdf_cover(filepath, max_size)
-
     return None
 
 
 def _extract_epub_cover(filepath: Path, max_size: int) -> Optional[str]:
-    """从 EPUB 中提取第一张图片"""
     try:
         with zipfile.ZipFile(filepath, "r") as zf:
             image_exts = {".jpg", ".jpeg", ".png", ".gif", ".webp"}
@@ -274,19 +434,14 @@ def _extract_epub_cover(filepath: Path, max_size: int) -> Optional[str]:
                 [n for n in zf.namelist() if Path(n).suffix.lower() in image_exts],
                 key=lambda n: (0 if "cover" in n.lower() else 1, n),
             )
-            if not image_files:
-                return None
-
             for img_name in image_files[:5]:
                 with zf.open(img_name) as f:
                     data = f.read(max_size)
                     if len(data) > 1024:
                         ext = Path(img_name).suffix.lower()
                         mime = {
-                            ".jpg": "image/jpeg",
-                            ".jpeg": "image/jpeg",
-                            ".png": "image/png",
-                            ".gif": "image/gif",
+                            ".jpg": "image/jpeg", ".jpeg": "image/jpeg",
+                            ".png": "image/png", ".gif": "image/gif",
                             ".webp": "image/webp",
                         }.get(ext, "image/jpeg")
                         return f"data:{mime};base64,{base64.b64encode(data).decode()}"
@@ -296,7 +451,6 @@ def _extract_epub_cover(filepath: Path, max_size: int) -> Optional[str]:
 
 
 def _extract_pdf_cover(filepath: Path, max_size: int) -> Optional[str]:
-    """从 PDF 中提取第一页作为缩略图（需 PyPDF2 + Pillow）"""
     try:
         from PyPDF2 import PdfReader
         from PIL import Image
@@ -309,13 +463,6 @@ def _extract_pdf_cover(filepath: Path, max_size: int) -> Optional[str]:
         for img_obj in page.images:
             data = img_obj.data
             if len(data) > 512:
-                ext = Path(img_obj.name).suffix.lower() if img_obj.name else ".png"
-                mime = {
-                    ".jpg": "image/jpeg",
-                    ".jpeg": "image/jpeg",
-                    ".png": "image/png",
-                }.get(ext, "image/png")
-                # 限制大小
                 if len(data) > max_size:
                     with io.BytesIO(data) as buf:
                         im = Image.open(buf)
@@ -324,7 +471,11 @@ def _extract_pdf_cover(filepath: Path, max_size: int) -> Optional[str]:
                         im.save(out, format="JPEG", quality=60)
                         data = out.getvalue()
                         mime = "image/jpeg"
-                return f"data:{mime};base64,{base64.b64encode(data).decode()}"
+                        return f"data:{mime};base64,{base64.b64encode(data).decode()}"
+                else:
+                    ext = Path(img_obj.name).suffix.lower() if img_obj.name else ".png"
+                    mime = {".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".png": "image/png"}.get(ext, "image/png")
+                    return f"data:{mime};base64,{base64.b64encode(data).decode()}"
     except ImportError:
         pass
     except Exception:
@@ -332,17 +483,47 @@ def _extract_pdf_cover(filepath: Path, max_size: int) -> Optional[str]:
     return None
 
 
+def generate_fallback_cover(title: str, author: str, fmt: str) -> str:
+    """生成基于书名+作者+格式的稳定 SVG 占位封面"""
+    text = (title or author or "?").strip()
+    first_char = text[0] if text else "?"
+    hash_input = (title or "") + (author or "")
+    hue = (hashlib.md5(hash_input.encode()).digest()[0]) % 360
+
+    svg = (
+        f'<svg xmlns="http://www.w3.org/2000/svg" width="60" height="80">'
+        f'<rect width="60" height="80" fill="hsl({hue},50%,40%)" rx="3"/>'
+        f'<text x="30" y="48" text-anchor="middle" fill="white" '
+        f'font-size="28" font-family="sans-serif" font-weight="bold">{first_char}</text>'
+        f'<text x="30" y="70" text-anchor="middle" fill="rgba(255,255,255,0.7)" '
+        f'font-size="8" font-family="sans-serif">{fmt}</text>'
+        f'</svg>'
+    )
+    return f"data:image/svg+xml;base64,{base64.b64encode(svg.encode()).decode()}"
+
+
+def get_cover_html(book: Dict, extract_covers: bool) -> str:
+    """获取封面 HTML，优先内嵌图 → fallback SVG"""
+    if extract_covers:
+        filepath = Path(book.get("new_path") or book.get("filepath", ""))
+        if filepath.exists():
+            cover_data = extract_cover_thumbnail(filepath)
+            if cover_data:
+                return f'<img class="cover-img" src="{cover_data}" alt="{book.get("title", "")}">'
+
+    title = book.get("title", "") or book.get("author", "") or ""
+    fmt = book.get("format", "?")
+    author = book.get("author", "")
+    fallback = generate_fallback_cover(title, author, fmt)
+    return f'<img class="cover-img cover-fallback" src="{fallback}" alt="{title}">'
+
+
 # ══════════════════════════════════════════════════════════
 #  重复检测
 # ══════════════════════════════════════════════════════════
 
 def detect_duplicates(books: List[Dict]) -> Tuple[List[List[Dict]], List[Dict]]:
-    """
-    按 (文件名, 文件大小) 分组检测重复。
-    返回: (重复组列表, 去重后的书籍列表)
-    """
     groups: Dict[str, List[Dict]] = defaultdict(list)
-
     for book in books:
         key = f"{book['filename'].lower()}::{book['size']}"
         groups[key].append(book)
@@ -355,13 +536,8 @@ def detect_duplicates(books: List[Dict]) -> Tuple[List[List[Dict]], List[Dict]]:
         key = f"{book['filename'].lower()}::{book['size']}"
         if key in seen:
             continue
-        if len(groups[key]) > 1:
-            # 保留第一个，其余为重复
-            unique.append(book)
-            seen.add(key)
-        else:
-            unique.append(book)
-            seen.add(key)
+        unique.append(book)
+        seen.add(key)
 
     return duplicates, unique
 
@@ -371,33 +547,16 @@ def detect_duplicates(books: List[Dict]) -> Tuple[List[List[Dict]], List[Dict]]:
 # ══════════════════════════════════════════════════════════
 
 def get_target_dir(base_dir: Path, book: Dict) -> Path:
-    """计算目标文件夹: base/作者/书名首字母/"""
     author = book.get("author", "").strip()
     title = book.get("title", "").strip()
 
-    if not author:
-        author = "未知作者"
-    if not title:
-        title = "未知书名"
+    safe_author = sanitize_dirname(author) if author else "未知作者"
+    safe_title = sanitize_dirname(title) if title else "未知书名"
 
-    # 取作者第一个非标点字符
-    author_key = _get_first_meaningful_char(author)
-    # 取书名第一个非标点字符
-    title_key = _get_first_meaningful_char(title)
+    title_key = _get_first_meaningful_char(title) if title else "X"
+    author_key = _get_first_meaningful_char(author) if author else "X"
 
-    return base_dir / author / f"{title_key}_{title}"
-
-
-def _get_first_meaningful_char(s: str) -> str:
-    """提取字符串中第一个有意义的字符（跳过标点、空格）"""
-    cleaned = re.sub(r"[_\-\s\.\,;:!?\'\"\(\)\[\]{}《》「」『』【】〔〕]+", "", s)
-    if cleaned:
-        ch = cleaned[0]
-        # 统一大写
-        if ch.isalpha():
-            return ch.upper()
-        return ch
-    return "X"
+    return base_dir / f"{author_key}_{safe_author}" / f"{title_key}_{safe_title}"
 
 
 def organize_files(
@@ -407,15 +566,12 @@ def organize_files(
     dry_run: bool = False,
     verbose: bool = True,
 ) -> List[Dict]:
-    """按作者/书名首字母 移动文件"""
     results = []
-
     for book in books:
         src = Path(book["filepath"])
         dst_dir = get_target_dir(target_base, book)
         dst = dst_dir / book["filename"]
 
-        # 如果目标已存在，添加序号
         counter = 1
         while dst.exists() and dst != src:
             stem = Path(book["filename"]).stem
@@ -426,11 +582,21 @@ def organize_files(
         if not dry_run:
             dst_dir.mkdir(parents=True, exist_ok=True)
             if src != dst:
-                shutil.move(str(src), str(dst))
+                try:
+                    shutil.move(str(src), str(dst))
+                except OSError as e:
+                    print(f"  ⚠ 移动失败: {src.name} → {e}")
+                    dst = src
 
         if verbose:
-            rel_src = src.relative_to(source_base) if source_base in src.parents else src
-            rel_dst = dst.relative_to(target_base) if target_base in dst.parents else dst
+            try:
+                rel_src = src.relative_to(source_base) if source_base in src.parents else src
+            except ValueError:
+                rel_src = src
+            try:
+                rel_dst = dst.relative_to(target_base) if target_base in dst.parents else dst
+            except ValueError:
+                rel_dst = dst
             tag = "[DRY-RUN]" if dry_run else "[MOVE]"
             print(f"  {tag} {rel_src} → {rel_dst}")
 
@@ -446,15 +612,11 @@ def move_duplicates(
     dry_run: bool = False,
     verbose: bool = True,
 ):
-    """将重复文件中非首位的移动到待清理文件夹"""
     if not duplicate_groups:
         return
-
     for group in duplicate_groups:
         if len(group) <= 1:
             continue
-
-        # 保留第一个（已在上面的 unique 中处理），移动其余的
         for dup in group[1:]:
             src = Path(dup["filepath"])
             if not src.exists():
@@ -463,16 +625,19 @@ def move_duplicates(
                 if not src.exists():
                     continue
 
-            dst = cleanup_dir / src.name
+            dst = cleanup_dir / sanitize_dirname(src.name)
             counter = 1
             while dst.exists():
-                stem = src.stem
-                dst = cleanup_dir / f"{stem}_{counter}{src.suffix}"
+                stem = Path(src.name).stem
+                dst = cleanup_dir / f"{sanitize_dirname(stem)}_{counter}{src.suffix}"
                 counter += 1
 
             if not dry_run:
                 cleanup_dir.mkdir(parents=True, exist_ok=True)
-                shutil.move(str(src), str(dst))
+                try:
+                    shutil.move(str(src), str(dst))
+                except OSError as e:
+                    print(f"  ⚠ 移动重复文件失败: {src.name} → {e}")
 
             if verbose:
                 tag = "[DRY-RUN]" if dry_run else "[DUP]"
@@ -480,15 +645,61 @@ def move_duplicates(
 
 
 # ══════════════════════════════════════════════════════════
-#  HTML 藏书清单生成
+#  HTML 藏书清单
 # ══════════════════════════════════════════════════════════
+
+HTML_CSS = """
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+                 "Microsoft YaHei", sans-serif;
+    background: #f5f5f5; color: #333; line-height: 1.6;
+}
+.header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white; padding: 40px 20px; text-align: center;
+}
+.header h1 { font-size: 2em; margin-bottom: 8px; }
+.header .stats { font-size: 1em; opacity: 0.9; }
+.nav { text-align: center; padding: 15px; background: #fff; border-bottom: 1px solid #eee; }
+.nav a { color: #667eea; margin: 0 12px; text-decoration: none; font-weight: 500; }
+.nav a:hover { text-decoration: underline; }
+.container { max-width: 1400px; margin: 0 auto; padding: 20px; }
+table {
+    width: 100%; border-collapse: collapse; background: white;
+    border-radius: 8px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+}
+th {
+    background: #667eea; color: white; padding: 14px 12px; text-align: left;
+    font-weight: 600; font-size: 0.9em; text-transform: uppercase; letter-spacing: 0.5px;
+}
+td { padding: 12px; border-bottom: 1px solid #eee; vertical-align: middle; }
+tr:hover { background: #f8f9ff; }
+.cover-cell { width: 80px; text-align: center; }
+.cover-img {
+    width: 60px; height: 80px; object-fit: cover; border-radius: 4px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+.cover-fallback { opacity: 0.85; }
+.title-cell { font-weight: 500; }
+.author-cell { color: #667eea; font-weight: 500; }
+.badge {
+    display: inline-block; padding: 2px 8px; border-radius: 10px;
+    font-size: 0.75em; margin: 1px 2px;
+}
+.badge-guess { background: #fff3cd; color: #856404; }
+.badge-embedded { background: #d4edda; color: #155724; }
+.badge-swap { background: #f8d7da; color: #721c24; }
+.badge-error { background: #f8d7da; color: #721c24; }
+.footer { text-align: center; padding: 20px; color: #999; font-size: 0.85em; }
+"""
+
 
 def generate_html_catalog(
     books: List[Dict],
     output_path: Path,
     extract_covers: bool = True,
 ):
-    """生成按作者排序的 HTML 藏书清单"""
     sorted_books = sorted(books, key=lambda b: (
         _pinyin_sort_key(b.get("author", "")),
         _pinyin_sort_key(b.get("title", "")),
@@ -497,7 +708,7 @@ def generate_html_catalog(
     rows_html = ""
     author_stats = defaultdict(int)
 
-    for idx, book in enumerate(sorted_books):
+    for book in sorted_books:
         title = book.get("title") or "未知书名"
         author = book.get("author") or "未知作者"
         publisher = book.get("publisher") or "-"
@@ -505,28 +716,23 @@ def generate_html_catalog(
         fmt = book.get("format") or "-"
         size_mb = book.get("size", 0) / (1024 * 1024)
         guessed = book.get("guessed", {})
-        filename = book.get("filename", "")
 
         author_stats[author] += 1
 
-        # 封面缩略图
-        cover_html = '<div class="cover-placeholder">📖</div>'
-        if extract_covers:
-            filepath = Path(book.get("filepath") or book.get("new_path", ""))
-            if filepath.exists():
-                cover_data = extract_cover_thumbnail(filepath)
-                if cover_data:
-                    cover_html = f'<img class="cover-img" src="{cover_data}" alt="{title}">'
+        cover_html = get_cover_html(book, extract_covers)
 
-        # 猜测标记
-        guess_badges = []
+        badges = []
         for field, is_guessed in guessed.items():
             if is_guessed:
-                guess_badges.append(
+                badges.append(
                     f'<span class="badge badge-guess" title="从文件名猜测">{field}</span>'
                 )
+        if book.get("swap_detected"):
+            badges.append('<span class="badge badge-swap" title="检测到书名/作者可能反置，已自动交换">已交换</span>')
+        if book.get("error_reading"):
+            badges.append('<span class="badge badge-error" title="读取元数据时出错">读取错误</span>')
 
-        guess_html = " ".join(guess_badges) if guess_badges else ""
+        badge_html = " ".join(badges) if badges else ""
 
         rows_html += f"""
         <tr>
@@ -537,7 +743,7 @@ def generate_html_catalog(
             <td class="date-cell">{date}</td>
             <td class="format-cell">{fmt}</td>
             <td class="size-cell">{size_mb:.2f} MB</td>
-            <td class="guess-cell">{guess_html}</td>
+            <td class="guess-cell">{badge_html}</td>
         </tr>"""
 
     total = len(sorted_books)
@@ -550,100 +756,13 @@ def generate_html_catalog(
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>藏书清单</title>
-<style>
-* {{ margin: 0; padding: 0; box-sizing: border-box; }}
-body {{
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
-                 "Microsoft YaHei", sans-serif;
-    background: #f5f5f5;
-    color: #333;
-    line-height: 1.6;
-}}
-.header {{
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    padding: 40px 20px;
-    text-align: center;
-}}
-.header h1 {{ font-size: 2em; margin-bottom: 8px; }}
-.header .stats {{ font-size: 1em; opacity: 0.9; }}
-.container {{
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 20px;
-}}
-table {{
-    width: 100%;
-    border-collapse: collapse;
-    background: white;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-}}
-th {{
-    background: #667eea;
-    color: white;
-    padding: 14px 12px;
-    text-align: left;
-    font-weight: 600;
-    font-size: 0.9em;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}}
-td {{
-    padding: 12px;
-    border-bottom: 1px solid #eee;
-    vertical-align: middle;
-}}
-tr:hover {{ background: #f8f9ff; }}
-.cover-cell {{ width: 80px; text-align: center; }}
-.cover-placeholder {{
-    width: 60px;
-    height: 80px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    background: #f0f0f0;
-    border-radius: 4px;
-    font-size: 2em;
-}}
-.cover-img {{
-    width: 60px;
-    height: 80px;
-    object-fit: cover;
-    border-radius: 4px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-}}
-.title-cell {{ font-weight: 500; }}
-.author-cell {{ color: #667eea; font-weight: 500; }}
-.badge {{
-    display: inline-block;
-    padding: 2px 8px;
-    border-radius: 10px;
-    font-size: 0.75em;
-    margin: 1px 2px;
-}}
-.badge-guess {{
-    background: #fff3cd;
-    color: #856404;
-}}
-.footer {{
-    text-align: center;
-    padding: 20px;
-    color: #999;
-    font-size: 0.85em;
-}}
-.group-header {{
-    background: #f0f2ff !important;
-    font-weight: 700 !important;
-}}
-</style>
+<style>{HTML_CSS}</style>
 </head>
 <body>
 <div class="header">
     <h1>📚 藏书清单</h1>
     <p class="stats">
-        共 {total} 本书 · {authors_count} 位作者 · 总大小 {total_size:.2f} MB · 
+        共 {total} 本书 · {authors_count} 位作者 · 总大小 {total_size:.2f} MB ·
         生成于 {datetime.now().strftime("%Y-%m-%d %H:%M")}
     </p>
 </div>
@@ -651,24 +770,14 @@ tr:hover {{ background: #f8f9ff; }}
     <table>
         <thead>
             <tr>
-                <th>封面</th>
-                <th>书名</th>
-                <th>作者</th>
-                <th>出版社</th>
-                <th>出版日期</th>
-                <th>格式</th>
-                <th>大小</th>
-                <th>标记</th>
+                <th>封面</th><th>书名</th><th>作者</th><th>出版社</th>
+                <th>出版日期</th><th>格式</th><th>大小</th><th>标记</th>
             </tr>
         </thead>
-        <tbody>
-{rows_html}
-        </tbody>
+        <tbody>{rows_html}</tbody>
     </table>
 </div>
-<div class="footer">
-    <p>由 Ebook Organizer 自动生成</p>
-</div>
+<div class="footer"><p>由 Ebook Organizer 自动生成</p></div>
 </body>
 </html>"""
 
@@ -678,12 +787,9 @@ tr:hover {{ background: #f8f9ff; }}
 
 
 def _pinyin_sort_key(s: str) -> str:
-    """简化的排序键：中文按笔画/拼音近似排序"""
     if not s:
         return "zzzzz"
-    ch = s[0]
-    if _CHINESE_RE.match(ch):
-        # 中文字符放在字母后面
+    if _CHINESE_RE.match(s[0]):
         return "zzz" + s
     return s.lower()
 
@@ -693,7 +799,6 @@ def _pinyin_sort_key(s: str) -> str:
 # ══════════════════════════════════════════════════════════
 
 def export_json(books: List[Dict], output_path: Path):
-    """导出书籍清单为 JSON"""
     export_data = []
     for book in books:
         export_data.append({
@@ -705,7 +810,9 @@ def export_json(books: List[Dict], output_path: Path):
             "filename": book.get("filename", ""),
             "size_bytes": book.get("size", 0),
             "filepath": book.get("new_path") or book.get("filepath", ""),
-            "guessed_fields": book.get("guessed", {}),
+            "meta_source": book.get("meta_source", {}),
+            "swap_detected": book.get("swap_detected", False),
+            "error_reading": book.get("error_reading", False),
         })
 
     output_path.parent.mkdir(parents=True, exist_ok=True)
@@ -717,16 +824,190 @@ def export_json(books: List[Dict], output_path: Path):
 
 
 # ══════════════════════════════════════════════════════════
+#  整理报告
+# ══════════════════════════════════════════════════════════
+
+def generate_report(
+    books: List[Dict],
+    duplicate_groups: List[List[Dict]],
+    skipped_books: List[Dict],
+    dup_count: int,
+    output_dir: Path,
+) -> str:
+    report_path = output_dir / "report.html"
+
+    embedded_books = []
+    guessed_books = []
+    swapped_books = []
+    error_books = []
+
+    for b in books:
+        sources = b.get("meta_source", {})
+        has_embedded = any(v == "embedded" for v in sources.values())
+        has_guessed = any(v == "filename" for v in sources.values())
+        if has_embedded:
+            embedded_books.append(b)
+        if has_guessed:
+            guessed_books.append(b)
+        if b.get("swap_detected"):
+            swapped_books.append(b)
+        if b.get("error_reading"):
+            error_books.append(b)
+
+    def _book_rows(book_list):
+        rows = ""
+        for b in book_list:
+            title = b.get("title") or "未知书名"
+            author = b.get("author") or "未知作者"
+            filename = b.get("filename", "")
+            sources = b.get("meta_source", {})
+            source_str = ", ".join(
+                f"{k}: {v}" for k, v in sources.items() if v != "missing"
+            )
+            paths = b.get("new_path") or b.get("filepath", "")
+            rows += f"""<tr>
+                <td>{title}</td><td>{author}</td><td>{filename}</td>
+                <td>{source_str}</td><td style="font-size:0.8em;word-break:break-all">{paths}</td>
+            </tr>"""
+        return rows
+
+    html = f"""<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>整理报告</title>
+<style>{HTML_CSS}
+.summary-box {{
+    display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 24px;
+}}
+.summary-card {{
+    flex: 1; min-width: 180px; background: white; padding: 20px;
+    border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    text-align: center;
+}}
+.summary-card .num {{ font-size: 2em; font-weight: 700; color: #667eea; }}
+.summary-card .label {{ color: #888; font-size: 0.9em; margin-top: 4px; }}
+.section {{ margin-bottom: 30px; }}
+.section h2 {{
+    background: #f0f2ff; padding: 10px 16px; border-radius: 6px;
+    font-size: 1.1em; margin-bottom: 12px; color: #444;
+}}
+</style>
+</head>
+<body>
+<div class="header">
+    <h1>📊 整理报告</h1>
+    <p class="stats">生成于 {datetime.now().strftime("%Y-%m-%d %H:%M")}</p>
+</div>
+<div class="container">
+    <div class="summary-box">
+        <div class="summary-card"><div class="num">{len(books)}</div><div class="label">整理书籍</div></div>
+        <div class="summary-card"><div class="num">{len(embedded_books)}</div><div class="label">使用内嵌元数据</div></div>
+        <div class="summary-card"><div class="num">{len(guessed_books)}</div><div class="label">从文件名猜测</div></div>
+        <div class="summary-card"><div class="num">{len(swapped_books)}</div><div class="label">检测到书名/作者反置</div></div>
+        <div class="summary-card"><div class="num">{dup_count}</div><div class="label">重复文件</div></div>
+        <div class="summary-card"><div class="num">{len(skipped_books)}</div><div class="label">跳过</div></div>
+        <div class="summary-card"><div class="num">{len(error_books)}</div><div class="label">读取错误</div></div>
+    </div>
+"""
+
+    sections = [
+        ("📖 使用内嵌元数据的书籍", embedded_books),
+        ("🔍 从文件名猜测的书籍", guessed_books),
+        ("🔄 检测到书名/作者反置的书籍", swapped_books),
+        ("⚠ 读取元数据出错的书籍", error_books),
+        ("⏭ 跳过的书籍", skipped_books),
+    ]
+
+    for title, book_list in sections:
+        if not book_list:
+            continue
+        html += f"""<div class="section">
+    <h2>{title} ({len(book_list)})</h2>
+    <table>
+        <thead><tr><th>书名</th><th>作者</th><th>文件名</th><th>元数据来源</th><th>路径</th></tr></thead>
+        <tbody>{_book_rows(book_list)}</tbody>
+    </table>
+</div>"""
+
+    if duplicate_groups:
+        dup_rows = ""
+        for g in duplicate_groups:
+            for b in g:
+                dup_rows += f"<tr><td>{b.get('title','?')}</td><td>{b.get('author','?')}</td><td>{b.get('filename','')}</td></tr>"
+        html += f"""<div class="section">
+    <h2>🗑 重复文件 ({dup_count})</h2>
+    <table>
+        <thead><tr><th>书名</th><th>作者</th><th>文件名</th></tr></thead>
+        <tbody>{dup_rows}</tbody>
+    </table>
+</div>"""
+
+    html += """</div>
+<div class="footer"><p>由 Ebook Organizer 自动生成</p></div>
+</body>
+</html>"""
+
+    report_path.parent.mkdir(parents=True, exist_ok=True)
+    report_path.write_text(html, encoding="utf-8")
+    return str(report_path)
+
+
+# ══════════════════════════════════════════════════════════
+#  增量模式：加载 & 合并 catalog
+# ══════════════════════════════════════════════════════════
+
+def load_existing_catalog(json_path: Path) -> List[Dict]:
+    if not json_path.exists():
+        return []
+    try:
+        data = json.loads(json_path.read_text(encoding="utf-8"))
+        for item in data:
+            item["_existing"] = True
+        return data
+    except (json.JSONDecodeError, KeyError):
+        return []
+
+
+def find_existing_books(output_dir: Path) -> List[Dict]:
+    """从已整理目录中扫描已有书籍"""
+    existing = []
+    exts = {".epub", ".pdf"}
+    if not output_dir.exists():
+        return existing
+    for filepath in output_dir.rglob("*"):
+        if filepath.is_file() and filepath.suffix.lower() in exts:
+            book = get_book_meta(filepath)
+            book["_existing"] = True
+            book["new_path"] = str(filepath)
+            existing.append(book)
+    return existing
+
+
+def merge_catalogs(existing: List[Dict], new_books: List[Dict]) -> List[Dict]:
+    """合并已有书和新书，按文件路径去重"""
+    merged = list(existing)
+    existing_paths = {b.get("new_path") or b.get("filepath", "") for b in existing}
+    existing_files = {(b.get("filename", "").lower(), b.get("size", 0)) for b in existing}
+
+    for book in new_books:
+        path = book.get("new_path") or book.get("filepath", "")
+        if path in existing_paths:
+            continue
+        fkey = (book.get("filename", "").lower(), book.get("size", 0))
+        if fkey in existing_files:
+            continue
+        merged.append(book)
+
+    return merged
+
+
+# ══════════════════════════════════════════════════════════
 #  交互式确认
 # ══════════════════════════════════════════════════════════
 
 def confirm_guessed_metadata(books: List[Dict]) -> List[Dict]:
-    """
-    列出所有有猜测字段的书籍，让用户确认或修改。
-    返回用户确认后的书籍列表。
-    """
     guessed_books = [b for b in books if any(b.get("guessed", {}).values())]
-
     if not guessed_books:
         print("\n✅ 所有书籍元数据完整，无需确认。\n")
         return books
@@ -735,18 +1016,22 @@ def confirm_guessed_metadata(books: List[Dict]) -> List[Dict]:
     print(f"📋 以下 {len(guessed_books)} 本书的元数据是从文件名猜测的，请确认：")
     print(f"{'='*60}")
 
-    book_map = {b["filepath"]: b for b in books}
-
     for i, book in enumerate(guessed_books):
         print(f"\n--- [{i+1}/{len(guessed_books)}] ---")
         print(f"  文件: {book['filename']}")
         print(f"  格式: {book.get('format', '-')}")
+
+        if book.get("swap_detected"):
+            print(f"  ⚠ 检测到书名/作者可能反置，已自动交换")
 
         for field in ("title", "author", "publisher"):
             val = book.get(field, "")
             is_guessed = book.get("guessed", {}).get(field, False)
             flag = " (猜测)" if is_guessed else ""
             print(f"  {field}: {val}{flag}")
+
+        if book.get("error_reading"):
+            print(f"  ⚠ 读取元数据时出错")
 
         print(f"\n  按 Enter 确认，或输入 's' 跳过此书，或输入新值修改：")
 
@@ -760,17 +1045,19 @@ def confirm_guessed_metadata(books: List[Dict]) -> List[Dict]:
             except (EOFError, KeyboardInterrupt):
                 print("\n跳过确认...")
                 for b in books:
-                    if b.get("guessed"):
-                        b["guessed"] = {}
+                    for k in ("title", "author", "publisher"):
+                        b["guessed"][k] = False
                 return books
 
             if user_input.lower() == "s":
-                # 跳过此书
                 print("    ⏭ 跳过此书")
                 break
             elif user_input:
                 book[field] = user_input
                 book["guessed"][field] = False
+                book["meta_source"][field] = "manual"
+                if book.get("swap_detected"):
+                    book["swap_detected"] = False
                 print(f"    ✅ {field} 已更新为: {user_input}")
             elif user_input == "":
                 book["guessed"][field] = False
@@ -785,14 +1072,23 @@ def confirm_guessed_metadata(books: List[Dict]) -> List[Dict]:
 #  扫描
 # ══════════════════════════════════════════════════════════
 
-def scan_books(source_dir: Path) -> List[Dict]:
-    """递归扫描目录，收集所有 EPUB/PDF"""
+def scan_books(source_dir: Path, exclude_dirs: List[Path] = None) -> List[Dict]:
     books = []
     exts = {".epub", ".pdf"}
+    exclude_dirs = [Path(d).resolve() for d in (exclude_dirs or [])]
 
     for filepath in source_dir.rglob("*"):
         if filepath.is_file() and filepath.suffix.lower() in exts:
-            books.append(get_book_meta(filepath))
+            skip = False
+            for ed in exclude_dirs:
+                try:
+                    filepath.resolve().relative_to(ed)
+                    skip = True
+                    break
+                except ValueError:
+                    pass
+            if not skip:
+                books.append(get_book_meta(filepath))
 
     return books
 
@@ -811,54 +1107,27 @@ def main():
   python ebook_organizer.py ./books --json ./catalog.json --html ./catalog.html
   python ebook_organizer.py ./books --dry-run              # 仅预览，不实际移动
   python ebook_organizer.py ./books --no-confirm           # 跳过交互式确认
+  python ebook_organizer.py ./Library --incremental         # 增量模式，合并已有书库
         """,
     )
 
-    parser.add_argument(
-        "source",
-        type=str,
-        help="电子书源文件夹路径",
-    )
-    parser.add_argument(
-        "--output",
-        "-o",
-        type=str,
-        default=None,
-        help="输出/整理后的目标文件夹（默认为源文件夹下的 '已整理'）",
-    )
-    parser.add_argument(
-        "--cleanup",
-        type=str,
-        default=None,
-        help="重复文件待清理文件夹（默认为目标文件夹下的 '待清理'）",
-    )
-    parser.add_argument(
-        "--html",
-        type=str,
-        default=None,
-        help="HTML 藏书清单输出路径（默认为目标文件夹下的 catalog.html）",
-    )
-    parser.add_argument(
-        "--json",
-        type=str,
-        default=None,
-        help="JSON 清单输出路径（默认为目标文件夹下的 catalog.json）",
-    )
-    parser.add_argument(
-        "--dry-run",
-        action="store_true",
-        help="仅预览，不实际移动文件",
-    )
-    parser.add_argument(
-        "--no-confirm",
-        action="store_true",
-        help="跳过元数据猜测的交互式确认",
-    )
-    parser.add_argument(
-        "--no-covers",
-        action="store_true",
-        help="不为 HTML 清单提取封面缩略图",
-    )
+    parser.add_argument("source", type=str, help="电子书源文件夹路径")
+    parser.add_argument("--output", "-o", type=str, default=None,
+                        help="输出/整理后的目标文件夹（默认为源文件夹下的 '已整理'）")
+    parser.add_argument("--cleanup", type=str, default=None,
+                        help="重复文件待清理文件夹（默认为目标文件夹下的 '待清理'）")
+    parser.add_argument("--html", type=str, default=None,
+                        help="HTML 藏书清单输出路径（默认为目标文件夹下的 catalog.html）")
+    parser.add_argument("--json", type=str, default=None,
+                        help="JSON 清单输出路径（默认为目标文件夹下的 catalog.json）")
+    parser.add_argument("--dry-run", action="store_true",
+                        help="仅预览，不实际移动文件")
+    parser.add_argument("--no-confirm", action="store_true",
+                        help="跳过元数据猜测的交互式确认")
+    parser.add_argument("--no-covers", action="store_true",
+                        help="不为 HTML 清单提取封面缩略图（仍会生成 fallback 图标）")
+    parser.add_argument("--incremental", action="store_true",
+                        help="增量模式：合并已有书库，只处理新增书籍")
 
     args = parser.parse_args()
 
@@ -880,15 +1149,52 @@ def main():
     print(f"  待清理文件夹: {cleanup_dir}")
     if args.dry_run:
         print(f"  🔍 模式: 仅预览 (DRY-RUN)")
+    if args.incremental:
+        print(f"  🔄 模式: 增量扫描")
+
+    # ── 增量模式：加载已有书库 ──
+    existing_books = []
+    if args.incremental:
+        print(f"\n📂 正在加载已有书库...")
+        existing_books = find_existing_books(output_dir)
+        existing_from_json = load_existing_catalog(json_path)
+        if existing_from_json and not existing_books:
+            existing_books = existing_from_json
+        print(f"  已有 {len(existing_books)} 本已整理书籍")
 
     # ── Step 1: 扫描 ──
     print(f"\n🔍 正在扫描电子书...")
-    books = scan_books(source_dir)
+    books = scan_books(source_dir, exclude_dirs=[output_dir, cleanup_dir])
     print(f"  发现 {len(books)} 本电子书 ({sum(1 for b in books if b['format'] == 'EPUB')} EPUB, "
           f"{sum(1 for b in books if b['format'] == 'PDF')} PDF)")
 
-    if not books:
+    # ── 增量模式：过滤已有书籍 ──
+    skipped_books = []
+    if args.incremental and existing_books:
+        existing_paths = {b.get("new_path") or b.get("filepath", "") for b in existing_books}
+        existing_files = {(b.get("filename", "").lower(), b.get("size", 0)) for b in existing_books}
+        new_books = []
+        for b in books:
+            fkey = (b.get("filename", "").lower(), b.get("size", 0))
+            if fkey in existing_files:
+                skipped_books.append(b)
+            else:
+                new_books.append(b)
+        books = new_books
+        print(f"  其中 {len(new_books)} 本为新书，{len(skipped_books)} 本已存在")
+
+    if not books and not args.incremental:
         print("❌ 未发现任何 EPUB 或 PDF 文件。")
+        return
+
+    if not books and args.incremental:
+        print("✅ 没有新书需要整理。")
+        if existing_books:
+            print(f"\n📄 正在更新清单...")
+            generate_html_catalog(existing_books, html_path, extract_covers=not args.no_covers)
+            export_json(existing_books, json_path)
+            generate_report(existing_books, [], [], 0, output_dir)
+            print(f"  ✅ 清单已更新（基于 {len(existing_books)} 本已有书籍）")
         return
 
     # ── Step 2: 确认猜测的元数据 ──
@@ -898,7 +1204,6 @@ def main():
     # ── Step 3: 去重检测 ──
     print(f"\n🔍 正在检测重复文件...")
     duplicate_groups, unique_books = detect_duplicates(books)
-
     dup_count = sum(len(g) - 1 for g in duplicate_groups)
     if dup_count > 0:
         print(f"  发现 {dup_count} 个重复文件（{len(duplicate_groups)} 组）：")
@@ -910,57 +1215,68 @@ def main():
     else:
         print("  ✅ 未发现重复文件。")
 
-    # ── Step 4: 移动重复文件到待清理 ──
+    # ── Step 4: 移动重复文件 ──
     if dup_count > 0:
         print(f"\n🧹 移动重复文件到待清理文件夹...")
         move_duplicates(duplicate_groups, cleanup_dir, dry_run=args.dry_run)
 
     # ── Step 5: 整理唯一文件 ──
     print(f"\n📁 正在整理 {len(unique_books)} 本唯一书籍...")
-
-    # 移除 output_dir 和 cleanup_dir，以免误把自己的输出当源
+    organize_skipped = []
     books_to_organize = []
     for b in unique_books:
         p = Path(b["filepath"])
         try:
-            p.relative_to(output_dir)
+            p.resolve().relative_to(output_dir.resolve())
             print(f"  ⏭ 跳过（已在输出目录）: {b['filename']}")
+            organize_skipped.append(b)
         except ValueError:
             try:
-                p.relative_to(cleanup_dir)
+                p.resolve().relative_to(cleanup_dir.resolve())
                 print(f"  ⏭ 跳过（已在待清理目录）: {b['filename']}")
+                organize_skipped.append(b)
             except ValueError:
                 books_to_organize.append(b)
 
-    organized = organize_files(
-        books_to_organize,
-        source_dir,
-        output_dir,
-        dry_run=args.dry_run,
-    )
+    organized = organize_files(books_to_organize, source_dir, output_dir, dry_run=args.dry_run)
+
+    # ── 增量模式：合并 ──
+    all_books = organized
+    if args.incremental:
+        all_books = merge_catalogs(existing_books, organized)
+        all_skipped = skipped_books + organize_skipped
+    else:
+        all_skipped = organize_skipped
 
     # ── Step 6: 生成 HTML 清单 ──
     print(f"\n📄 正在生成 HTML 藏书清单...")
-    gen_html = generate_html_catalog(
-        organized,
-        html_path,
-        extract_covers=not args.no_covers,
-    )
+    gen_html = generate_html_catalog(all_books, html_path, extract_covers=not args.no_covers)
     print(f"  ✅ HTML 清单: {gen_html}")
 
     # ── Step 7: 导出 JSON ──
     print(f"\n📄 正在导出 JSON 清单...")
-    gen_json = export_json(organized, json_path)
+    gen_json = export_json(all_books, json_path)
     print(f"  ✅ JSON 清单: {gen_json}")
+
+    # ── Step 8: 生成整理报告 ──
+    print(f"\n📊 正在生成整理报告...")
+    gen_report = generate_report(all_books, duplicate_groups, all_skipped, dup_count, output_dir)
+    print(f"  ✅ 整理报告: {gen_report}")
 
     # ── 总结 ──
     print(f"\n{'='*60}")
     print("✅ 整理完成！")
-    print(f"  书籍总数: {len(books)}")
-    print(f"  唯一书籍: {len(organized)}")
+    print(f"  书籍总数: {len(all_books)}")
+    print(f"  本次新增: {len(organized)}")
     print(f"  重复文件: {dup_count} (已移至: {cleanup_dir})")
+    print(f"  跳过: {len(all_skipped)}")
+    embedded_count = sum(1 for b in all_books if any(v == "embedded" for v in b.get("meta_source", {}).values()))
+    guessed_count = sum(1 for b in all_books if any(v == "filename" for v in b.get("meta_source", {}).values()))
+    swap_count = sum(1 for b in all_books if b.get("swap_detected"))
+    print(f"  内嵌元数据: {embedded_count} | 文件名猜测: {guessed_count} | 反置检测: {swap_count}")
     print(f"  HTML 清单: {html_path}")
     print(f"  JSON 清单: {json_path}")
+    print(f"  整理报告: {output_dir / 'report.html'}")
     print(f"{'='*60}")
 
 

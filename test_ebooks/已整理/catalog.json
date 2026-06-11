@@ -1,0 +1,272 @@
+[
+  {
+    "title": "平凡的世界",
+    "author": "路遥",
+    "publisher": "",
+    "date": "",
+    "format": "EPUB",
+    "filename": "05_平凡的世界 - 路遥.epub",
+    "size_bytes": 677,
+    "filepath": "D:\\code\\TraeProjects\\1205\\test_ebooks\\已整理\\路_路遥\\平_平凡的世界\\05_平凡的世界 - 路遥.epub",
+    "meta_source": {
+      "title": "filename",
+      "author": "filename",
+      "publisher": "missing",
+      "date": "missing"
+    },
+    "swap_detected": true,
+    "error_reading": false
+  },
+  {
+    "title": "蛙",
+    "author": "莫言",
+    "publisher": "",
+    "date": "",
+    "format": "PDF",
+    "filename": "11_莫言 - 蛙.pdf",
+    "size_bytes": 328,
+    "filepath": "D:\\code\\TraeProjects\\1205\\test_ebooks\\已整理\\莫_莫言\\蛙_蛙\\11_莫言 - 蛙.pdf",
+    "meta_source": {
+      "title": "filename",
+      "author": "filename",
+      "publisher": "missing",
+      "date": "missing"
+    },
+    "swap_detected": false,
+    "error_reading": false
+  },
+  {
+    "title": "重复测试",
+    "author": "测试作者",
+    "publisher": "测试出版社",
+    "date": "2020-01-01",
+    "format": "EPUB",
+    "filename": "10_dup_copy.epub",
+    "size_bytes": 879,
+    "filepath": "D:\\code\\TraeProjects\\1205\\test_ebooks\\已整理\\测_测试作者\\重_重复测试\\10_dup_copy.epub",
+    "meta_source": {
+      "title": "embedded",
+      "author": "embedded",
+      "publisher": "embedded",
+      "date": "embedded"
+    },
+    "swap_detected": false,
+    "error_reading": false
+  },
+  {
+    "title": "重复测试",
+    "author": "测试作者",
+    "publisher": "测试出版社",
+    "date": "2020-01-01",
+    "format": "EPUB",
+    "filename": "10_dup_original.epub",
+    "size_bytes": 879,
+    "filepath": "D:\\code\\TraeProjects\\1205\\test_ebooks\\已整理\\测_测试作者\\重_重复测试\\10_dup_original.epub",
+    "meta_source": {
+      "title": "embedded",
+      "author": "embedded",
+      "publisher": "embedded",
+      "date": "embedded"
+    },
+    "swap_detected": false,
+    "error_reading": false
+  },
+  {
+    "title": "三体",
+    "author": "刘慈欣",
+    "publisher": "重庆出版社",
+    "date": "2008-01-01",
+    "format": "EPUB",
+    "filename": "06_刘慈欣 - 三体 - 重庆出版社 - 2008.epub",
+    "size_bytes": 677,
+    "filepath": "D:\\code\\TraeProjects\\1205\\test_ebooks\\已整理\\刘_刘慈欣\\三_三体\\06_刘慈欣 - 三体 - 重庆出版社 - 2008.epub",
+    "meta_source": {
+      "title": "filename",
+      "author": "filename",
+      "publisher": "filename",
+      "date": "filename"
+    },
+    "swap_detected": false,
+    "error_reading": false
+  },
+  {
+    "title": "活着",
+    "author": "余华",
+    "publisher": "",
+    "date": "",
+    "format": "EPUB",
+    "filename": "04_活着 - 余华.epub",
+    "size_bytes": 677,
+    "filepath": "D:\\code\\TraeProjects\\1205\\test_ebooks\\已整理\\余_余华\\活_活着\\04_活着 - 余华.epub",
+    "meta_source": {
+      "title": "filename",
+      "author": "filename",
+      "publisher": "missing",
+      "date": "missing"
+    },
+    "swap_detected": true,
+    "error_reading": false
+  },
+  {
+    "title": "恶意",
+    "author": "东野圭吾",
+    "publisher": "",
+    "date": "",
+    "format": "EPUB",
+    "filename": "08_恶意【东野圭吾】.epub",
+    "size_bytes": 677,
+    "filepath": "D:\\code\\TraeProjects\\1205\\test_ebooks\\已整理\\东_东野圭吾\\恶_恶意\\08_恶意【东野圭吾】.epub",
+    "meta_source": {
+      "title": "filename",
+      "author": "filename",
+      "publisher": "missing",
+      "date": "missing"
+    },
+    "swap_detected": false,
+    "error_reading": false
+  },
+  {
+    "title": "白夜行",
+    "author": "东野圭吾",
+    "publisher": "",
+    "date": "",
+    "format": "EPUB",
+    "filename": "07_白夜行（东野圭吾）.epub",
+    "size_bytes": 677,
+    "filepath": "D:\\code\\TraeProjects\\1205\\test_ebooks\\已整理\\东_东野圭吾\\白_白夜行\\07_白夜行（东野圭吾）.epub",
+    "meta_source": {
+      "title": "filename",
+      "author": "filename",
+      "publisher": "missing",
+      "date": "missing"
+    },
+    "swap_detected": false,
+    "error_reading": false
+  },
+  {
+    "title": "谁杀了她？东野圭吾作品",
+    "author": "东野圭吾",
+    "publisher": "南海出版公司",
+    "date": "2013-06-01",
+    "format": "EPUB",
+    "filename": "02_special_chars.epub",
+    "size_bytes": 917,
+    "filepath": "D:\\code\\TraeProjects\\1205\\test_ebooks\\已整理\\东_东野圭吾\\谁_谁杀了她？东野圭吾作品\\02_special_chars.epub",
+    "meta_source": {
+      "title": "embedded",
+      "author": "embedded",
+      "publisher": "embedded",
+      "date": "embedded"
+    },
+    "swap_detected": false,
+    "error_reading": false
+  },
+  {
+    "title": "test",
+    "author": "swap",
+    "publisher": "",
+    "date": "",
+    "format": "EPUB",
+    "filename": "04_swap_test.epub",
+    "size_bytes": 800,
+    "filepath": "D:\\code\\TraeProjects\\1205\\test_ebooks\\已整理\\S_swap\\T_test\\04_swap_test.epub",
+    "meta_source": {
+      "title": "filename",
+      "author": "filename",
+      "publisher": "missing",
+      "date": "missing"
+    },
+    "swap_detected": false,
+    "error_reading": false
+  },
+  {
+    "title": "C++ Primer: The Complete Guide",
+    "author": "Stanley B. Lippman",
+    "publisher": "Addison-Wesley",
+    "date": "2012-08-06",
+    "format": "EPUB",
+    "filename": "01_special_chars.epub",
+    "size_bytes": 1041,
+    "filepath": "D:\\code\\TraeProjects\\1205\\test_ebooks\\已整理\\S_Stanley B. Lippman\\C_C++ Primer： The Complete Guide\\01_special_chars.epub",
+    "meta_source": {
+      "title": "embedded",
+      "author": "embedded",
+      "publisher": "embedded",
+      "date": "embedded"
+    },
+    "swap_detected": false,
+    "error_reading": false
+  },
+  {
+    "title": "深入理解计算机系统",
+    "author": "Randal E. Bryant",
+    "publisher": "机械工业出版社",
+    "date": "2016-11-01",
+    "format": "EPUB",
+    "filename": "09_with_cover.epub",
+    "size_bytes": 1080,
+    "filepath": "D:\\code\\TraeProjects\\1205\\test_ebooks\\已整理\\R_Randal E. Bryant\\深_深入理解计算机系统\\09_with_cover.epub",
+    "meta_source": {
+      "title": "embedded",
+      "author": "embedded",
+      "publisher": "embedded",
+      "date": "embedded"
+    },
+    "swap_detected": false,
+    "error_reading": false
+  },
+  {
+    "title": "effective",
+    "author": "java",
+    "publisher": "by_bloch",
+    "date": "",
+    "format": "PDF",
+    "filename": "12_effective_java_by_bloch.pdf",
+    "size_bytes": 328,
+    "filepath": "D:\\code\\TraeProjects\\1205\\test_ebooks\\已整理\\J_java\\E_effective\\12_effective_java_by_bloch.pdf",
+    "meta_source": {
+      "title": "filename",
+      "author": "filename",
+      "publisher": "filename",
+      "date": "missing"
+    },
+    "swap_detected": true,
+    "error_reading": false
+  },
+  {
+    "title": "1984/Brave New World",
+    "author": "George Orwell",
+    "publisher": "Penguin",
+    "date": "1949-06-08",
+    "format": "EPUB",
+    "filename": "03_special_chars.epub",
+    "size_bytes": 866,
+    "filepath": "D:\\code\\TraeProjects\\1205\\test_ebooks\\已整理\\G_George Orwell\\1_1984／Brave New World\\03_special_chars.epub",
+    "meta_source": {
+      "title": "embedded",
+      "author": "embedded",
+      "publisher": "embedded",
+      "date": "embedded"
+    },
+    "swap_detected": false,
+    "error_reading": false
+  },
+  {
+    "title": "新增书籍",
+    "author": "余华",
+    "publisher": "文城",
+    "date": "",
+    "format": "EPUB",
+    "filename": "13_新增书籍_余华 - 文城.epub",
+    "size_bytes": 677,
+    "filepath": "D:\\code\\TraeProjects\\1205\\test_ebooks\\已整理\\余_余华\\新_新增书籍\\13_新增书籍_余华 - 文城.epub",
+    "meta_source": {
+      "title": "filename",
+      "author": "filename",
+      "publisher": "filename",
+      "date": "missing"
+    },
+    "swap_detected": true,
+    "error_reading": false
+  }
+]

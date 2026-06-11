@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>整理报告</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+                 "Microsoft YaHei", sans-serif;
+    background: #f5f5f5; color: #333; line-height: 1.6;
+}
+.header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white; padding: 40px 20px; text-align: center;
+}
+.header h1 { font-size: 2em; margin-bottom: 8px; }
+.header .stats { font-size: 1em; opacity: 0.9; }
+.nav { text-align: center; padding: 15px; background: #fff; border-bottom: 1px solid #eee; }
+.nav a { color: #667eea; margin: 0 12px; text-decoration: none; font-weight: 500; }
+.nav a:hover { text-decoration: underline; }
+.container { max-width: 1400px; margin: 0 auto; padding: 20px; }
+table {
+    width: 100%; border-collapse: collapse; background: white;
+    border-radius: 8px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+}
+th {
+    background: #667eea; color: white; padding: 14px 12px; text-align: left;
+    font-weight: 600; font-size: 0.9em; text-transform: uppercase; letter-spacing: 0.5px;
+}
+td { padding: 12px; border-bottom: 1px solid #eee; vertical-align: middle; }
+tr:hover { background: #f8f9ff; }
+.cover-cell { width: 80px; text-align: center; }
+.cover-img {
+    width: 60px; height: 80px; object-fit: cover; border-radius: 4px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+.cover-fallback { opacity: 0.85; }
+.title-cell { font-weight: 500; }
+.author-cell { color: #667eea; font-weight: 500; }
+.badge {
+    display: inline-block; padding: 2px 8px; border-radius: 10px;
+    font-size: 0.75em; margin: 1px 2px;
+}
+.badge-guess { background: #fff3cd; color: #856404; }
+.badge-embedded { background: #d4edda; color: #155724; }
+.badge-swap { background: #f8d7da; color: #721c24; }
+.badge-error { background: #f8d7da; color: #721c24; }
+.footer { text-align: center; padding: 20px; color: #999; font-size: 0.85em; }
+
+.summary-box {
+    display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 24px;
+}
+.summary-card {
+    flex: 1; min-width: 180px; background: white; padding: 20px;
+    border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    text-align: center;
+}
+.summary-card .num { font-size: 2em; font-weight: 700; color: #667eea; }
+.summary-card .label { color: #888; font-size: 0.9em; margin-top: 4px; }
+.section { margin-bottom: 30px; }
+.section h2 {
+    background: #f0f2ff; padding: 10px 16px; border-radius: 6px;
+    font-size: 1.1em; margin-bottom: 12px; color: #444;
+}
+</style>
+</head>
+<body>
+<div class="header">
+    <h1>📊 整理报告</h1>
+    <p class="stats">生成于 2026-06-12 04:51</p>
+</div>
+<div class="container">
+    <div class="summary-box">
+        <div class="summary-card"><div class="num">15</div><div class="label">整理书籍</div></div>
+        <div class="summary-card"><div class="num">6</div><div class="label">使用内嵌元数据</div></div>
+        <div class="summary-card"><div class="num">9</div><div class="label">从文件名猜测</div></div>
+        <div class="summary-card"><div class="num">4</div><div class="label">检测到书名/作者反置</div></div>
+        <div class="summary-card"><div class="num">0</div><div class="label">重复文件</div></div>
+        <div class="summary-card"><div class="num">0</div><div class="label">跳过</div></div>
+        <div class="summary-card"><div class="num">0</div><div class="label">读取错误</div></div>
+    </div>
+<div class="section">
+    <h2>📖 使用内嵌元数据的书籍 (6)</h2>
+    <table>
+        <thead><tr><th>书名</th><th>作者</th><th>文件名</th><th>元数据来源</th><th>路径</th></tr></thead>
+        <tbody><tr>
+                <td>重复测试</td><td>测试作者</td><td>10_dup_copy.epub</td>
+                <td>title: embedded, author: embedded, publisher: embedded, date: embedded</td><td style="font-size:0.8em;word-break:break-all">D:\code\TraeProjects\1205\test_ebooks\已整理\测_测试作者\重_重复测试\10_dup_copy.epub</td>
+            </tr><tr>
+                <td>重复测试</td><td>测试作者</td><td>10_dup_original.epub</td>
+                <td>title: embedded, author: embedded, publisher: embedded, date: embedded</td><td style="font-size:0.8em;word-break:break-all">D:\code\TraeProjects\1205\test_ebooks\已整理\测_测试作者\重_重复测试\10_dup_original.epub</td>
+            </tr><tr>
+                <td>谁杀了她？东野圭吾作品</td><td>东野圭吾</td><td>02_special_chars.epub</td>
+                <td>title: embedded, author: embedded, publisher: embedded, date: embedded</td><td style="font-size:0.8em;word-break:break-all">D:\code\TraeProjects\1205\test_ebooks\已整理\东_东野圭吾\谁_谁杀了她？东野圭吾作品\02_special_chars.epub</td>
+            </tr><tr>
+                <td>C++ Primer: The Complete Guide</td><td>Stanley B. Lippman</td><td>01_special_chars.epub</td>
+                <td>title: embedded, author: embedded, publisher: embedded, date: embedded</td><td style="font-size:0.8em;word-break:break-all">D:\code\TraeProjects\1205\test_ebooks\已整理\S_Stanley B. Lippman\C_C++ Primer： The Complete Guide\01_special_chars.epub</td>
+            </tr><tr>
+                <td>深入理解计算机系统</td><td>Randal E. Bryant</td><td>09_with_cover.epub</td>
+                <td>title: embedded, author: embedded, publisher: embedded, date: embedded</td><td style="font-size:0.8em;word-break:break-all">D:\code\TraeProjects\1205\test_ebooks\已整理\R_Randal E. Bryant\深_深入理解计算机系统\09_with_cover.epub</td>
+            </tr><tr>
+                <td>1984/Brave New World</td><td>George Orwell</td><td>03_special_chars.epub</td>
+                <td>title: embedded, author: embedded, publisher: embedded, date: embedded</td><td style="font-size:0.8em;word-break:break-all">D:\code\TraeProjects\1205\test_ebooks\已整理\G_George Orwell\1_1984／Brave New World\03_special_chars.epub</td>
+            </tr></tbody>
+    </table>
+</div><div class="section">
+    <h2>🔍 从文件名猜测的书籍 (9)</h2>
+    <table>
+        <thead><tr><th>书名</th><th>作者</th><th>文件名</th><th>元数据来源</th><th>路径</th></tr></thead>
+        <tbody><tr>
+                <td>平凡的世界</td><td>路遥</td><td>05_平凡的世界 - 路遥.epub</td>
+                <td>title: filename, author: filename</td><td style="font-size:0.8em;word-break:break-all">D:\code\TraeProjects\1205\test_ebooks\已整理\路_路遥\平_平凡的世界\05_平凡的世界 - 路遥.epub</td>
+            </tr><tr>
+                <td>蛙</td><td>莫言</td><td>11_莫言 - 蛙.pdf</td>
+                <td>title: filename, author: filename</td><td style="font-size:0.8em;word-break:break-all">D:\code\TraeProjects\1205\test_ebooks\已整理\莫_莫言\蛙_蛙\11_莫言 - 蛙.pdf</td>
+            </tr><tr>
+                <td>三体</td><td>刘慈欣</td><td>06_刘慈欣 - 三体 - 重庆出版社 - 2008.epub</td>
+                <td>title: filename, author: filename, publisher: filename, date: filename</td><td style="font-size:0.8em;word-break:break-all">D:\code\TraeProjects\1205\test_ebooks\已整理\刘_刘慈欣\三_三体\06_刘慈欣 - 三体 - 重庆出版社 - 2008.epub</td>
+            </tr><tr>
+                <td>活着</td><td>余华</td><td>04_活着 - 余华.epub</td>
+                <td>title: filename, author: filename</td><td style="font-size:0.8em;word-break:break-all">D:\code\TraeProjects\1205\test_ebooks\已整理\余_余华\活_活着\04_活着 - 余华.epub</td>
+            </tr><tr>
+                <td>恶意</td><td>东野圭吾</td><td>08_恶意【东野圭吾】.epub</td>
+                <td>title: filename, author: filename</td><td style="font-size:0.8em;word-break:break-all">D:\code\TraeProjects\1205\test_ebooks\已整理\东_东野圭吾\恶_恶意\08_恶意【东野圭吾】.epub</td>
+            </tr><tr>
+                <td>白夜行</td><td>东野圭吾</td><td>07_白夜行（东野圭吾）.epub</td>
+                <td>title: filename, author: filename</td><td style="font-size:0.8em;word-break:break-all">D:\code\TraeProjects\1205\test_ebooks\已整理\东_东野圭吾\白_白夜行\07_白夜行（东野圭吾）.epub</td>
+            </tr><tr>
+                <td>test</td><td>swap</td><td>04_swap_test.epub</td>
+                <td>title: filename, author: filename</td><td style="font-size:0.8em;word-break:break-all">D:\code\TraeProjects\1205\test_ebooks\已整理\S_swap\T_test\04_swap_test.epub</td>
+            </tr><tr>
+                <td>effective</td><td>java</td><td>12_effective_java_by_bloch.pdf</td>
+                <td>title: filename, author: filename, publisher: filename</td><td style="font-size:0.8em;word-break:break-all">D:\code\TraeProjects\1205\test_ebooks\已整理\J_java\E_effective\12_effective_java_by_bloch.pdf</td>
+            </tr><tr>
+                <td>新增书籍</td><td>余华</td><td>13_新增书籍_余华 - 文城.epub</td>
+                <td>title: filename, author: filename, publisher: filename</td><td style="font-size:0.8em;word-break:break-all">D:\code\TraeProjects\1205\test_ebooks\已整理\余_余华\新_新增书籍\13_新增书籍_余华 - 文城.epub</td>
+            </tr></tbody>
+    </table>
+</div><div class="section">
+    <h2>🔄 检测到书名/作者反置的书籍 (4)</h2>
+    <table>
+        <thead><tr><th>书名</th><th>作者</th><th>文件名</th><th>元数据来源</th><th>路径</th></tr></thead>
+        <tbody><tr>
+                <td>平凡的世界</td><td>路遥</td><td>05_平凡的世界 - 路遥.epub</td>
+                <td>title: filename, author: filename</td><td style="font-size:0.8em;word-break:break-all">D:\code\TraeProjects\1205\test_ebooks\已整理\路_路遥\平_平凡的世界\05_平凡的世界 - 路遥.epub</td>
+            </tr><tr>
+                <td>活着</td><td>余华</td><td>04_活着 - 余华.epub</td>
+                <td>title: filename, author: filename</td><td style="font-size:0.8em;word-break:break-all">D:\code\TraeProjects\1205\test_ebooks\已整理\余_余华\活_活着\04_活着 - 余华.epub</td>
+            </tr><tr>
+                <td>effective</td><td>java</td><td>12_effective_java_by_bloch.pdf</td>
+                <td>title: filename, author: filename, publisher: filename</td><td style="font-size:0.8em;word-break:break-all">D:\code\TraeProjects\1205\test_ebooks\已整理\J_java\E_effective\12_effective_java_by_bloch.pdf</td>
+            </tr><tr>
+                <td>新增书籍</td><td>余华</td><td>13_新增书籍_余华 - 文城.epub</td>
+                <td>title: filename, author: filename, publisher: filename</td><td style="font-size:0.8em;word-break:break-all">D:\code\TraeProjects\1205\test_ebooks\已整理\余_余华\新_新增书籍\13_新增书籍_余华 - 文城.epub</td>
+            </tr></tbody>
+    </table>
+</div></div>
+<div class="footer"><p>由 Ebook Organizer 自动生成</p></div>
+</body>
+</html>
